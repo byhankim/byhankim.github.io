@@ -232,8 +232,8 @@ social_icons:
 
 
 # Sidebar Avatar
-# in directory: /assets/images/avatar.gif
-#avatar:
+# in directory: 
+avatar: assets/images/gitprofile.jpeg
 
 
 # Table Of Contents in the Sidebar
