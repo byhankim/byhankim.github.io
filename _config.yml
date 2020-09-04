@@ -169,7 +169,7 @@ font:
   enable: true
 
   # Uri of fonts host. E.g. //fonts.googleapis.com (Default)
-  host:
+  host: //fonts.googleapis.com
 
   # Global font settings used on <body> element.
   global:
@@ -187,7 +187,7 @@ font:
   # Fallback to `global` font settings.
   posts:
     external: true
-    family:
+    family: 
 
   # Font settings for Logo
   # Fallback to `global` font settings.
@@ -200,8 +200,8 @@ font:
   # Font settings for <code> and code blocks.
   codes:
     external: true
-    family:
-    size:
+    family: Fira Code
+    size: 16
 
 
 
