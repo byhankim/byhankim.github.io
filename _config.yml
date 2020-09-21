@@ -125,7 +125,7 @@ menu:
   tags: /tags/
   #sitemap: /sitemap.xml
   #commonweal: /404.html
-  tfjs-mobile: /tfjs-mobile2.html
+  tfjs-mobile: /tfjs-mobile/
 
 
 # Enable/Disable menu icons.

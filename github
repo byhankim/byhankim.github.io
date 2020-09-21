@@ -125,7 +125,7 @@ menu:
   tags: /tags/
   #sitemap: /sitemap.xml
   #commonweal: /404.html
-  # webrtc: /webRTC/
+  webrtc: /tfjs-mobile.html
 
 
 # Enable/Disable menu icons.
@@ -144,7 +144,7 @@ menu_icons:
   archives: archive
   sitemap: sitemap
   commonweal: heartbeat
-  webrtc: heartbeat
+  tfjs-mobile: heartbeat
 
 
 
