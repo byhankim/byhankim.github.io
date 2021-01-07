@@ -1,0 +1,860 @@
+
+<!doctype html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html class="theme-next muse use-motion" lang="en">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/assets/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Fira Code:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/assets/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/assets/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="" />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="coding.log" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/assets/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="시간여행">
+<meta name="keywords" content="Jekyll, NexT">
+<meta property="og:type" content="article">
+<meta property="og:title" content="TIL 20.09.03">
+<meta property="og:url" content="http://localhost:4000/til/2020/09/03/til/">
+<meta property="og:site_name" content="coding.log">
+<meta property="og:description" content="시간여행">
+<meta property="og:locale" content="en">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="TIL 20.09.03">
+<meta name="twitter:description" content="시간여행">
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Muse',
+    sidebar: {"position":"right","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://localhost:4000/"/>
+
+
+
+
+
+  <title>TIL 20.09.03 | coding.log</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+
+  <div class="container sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"> <div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">coding.log</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+        
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        
+        
+        <li class="menu-item menu-item-tfjs-mobile">
+          <a href="/tfjs-mobile/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+<div id="posts" class="posts-expand">
+  
+  
+
+  
+
+  
+  
+  
+
+  <article class="post post-type- " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://localhost:4000/til/2020/09/03/til/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hankim">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="assets/images/gitprofile.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="coding.log">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+          
+          
+            TIL 20.09.03
+          
+        </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-09-03T00:00:00+09:00">
+                2020-09-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/category/#/TIL" itemprop="url" rel="index">
+                    <span itemprop="name">TIL</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+            
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <h1 id="배운거">배운거</h1>
+<p>오늘은 하루 프로젝트인 Exploration 노드를 나갔다. 얼굴 인식 스티커 앱을 만드는 주제였지만 미처 끝내지 못한 어제 fundamental 노드들을 하느라, 집중이 떨어져서, 졸려서 등의 이유로 발만 살짝 담구고 끝났다.  <br />
+얼굴 이목구비의 위치를 locate하는 <code class="language-plaintext highlighter-rouge">face landmark localization</code> 기술, Object keypoint estimation 알고리즘 등 중요한 이론적 설명들이 많았지만 뇌스택용량의 한계로 받아들이지 못했다.</p>
+
+<p>어제 노드인 멀티프로세싱/멀티스레딩 관련 학습을 이어나갔다. C++를 배울 때도, 자바를 배울 때도 마찬가지였지만 항상 OOP, 병렬처리쯤 되면 손을 놨기에 나름 관련 함수들의 사용법과 쓰임새를 정독했다.</p>
+
+<p><a href="https://programmers.co.kr/learn/courses/4008">파이썬답게 코딩하기</a> 파트 6까지 나가기만 했다. 몇 주째 벼르고있었는데 강제 스터디를 급결성한 덕분에 그나마 읽고 넘어가기라도 했던 것 같다. 42때 머리를 쥐어짜며 구현한 중복되지 않은 조합 문제를 함수 하나로 실행할 수 있었다. 유난히 이 시리즈를 진행하면서 42때 기억폭력에 시달린다.</p>
+
+<h1 id="느낀거">느낀거</h1>
+<p>영상처리반에 계시는 수학의 대가 선생님을 모시고 스터디를 진행했다. 첫 스타트여서 그런지, 아니면 인원이 많아서인지 원활하게 진행이 되지 않는 느낌이었다. AI와 미분에 대한 갈증은 여전히 그대로이다. 미적분, 확통, 선형대수와 언제쯤 친해질 수 있을까..?     <br />
+집에서 공부하기 정말 힘들다. 사실 공부 자체가 힘들다. 다만 여러 사람들과 함께 시간을 보내고 관찰하며 타인이 어떻게 새로운 것을 받아들이고 파헤치며 공부하는지 알 수 있었다.   <br />
+예쁘게 랩핑해놓은 알고리즘 책이 아직도 새 책이다. 나무야 미안해…
+1일 1포스팅이 생각보다 힘들다. 매애애애우! 하지만 모종의 압박으로 인해 한동안은 잔디심기가 계속될 것 같다. 자라나는 머리머리처럼 내 AI력과 알고력도 상승하기를!</p>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+      
+      
+
+      
+      
+        <div class="post-nav" id="post-nav-id">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/til/2020/09/04/TIL/" rel="next" title="20.09.04 TIL">
+                <i class="fa fa-chevron-left"></i> 20.09.04 TIL
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/til/2020/09/02/til/" rel="prev" title="TIL 20.09.02">
+                TIL 20.09.02 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+      
+
+      
+    </footer>
+  </article>
+
+  <div class="post-spread">
+    
+  </div>
+</div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+        
+        
+        
+
+
+
+
+
+
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/assets/images/gitprofile.jpeg"
+               alt="hankim" />
+          <p class="site-author-name" itemprop="name">hankim</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="">
+                <span class="site-state-item-count">21</span>
+                <span class="site-state-item-name">posts</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/">
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">categories</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/">
+                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+        
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+
+
+
+
+
+
+
+            
+              <div class="post-toc-content">
+    <ol class=nav>
+      <li class="nav-item nav-level-1"> <a class="nav-link" href="#배운거"> <span class="nav-number">1</span> <span class="nav-text">배운거</span> </a> </li> <li class="nav-item nav-level-1"> <a class="nav-link" href="#느낀거"> <span class="nav-number">2</span> <span class="nav-text">느낀거</span> </a> </li>
+    </ol>
+  </div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">hankim</span>
+</div>
+
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="https://jekyllrb.com">Jekyll</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/simpleyyt/jekyll-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+   
+  
+  
+  
+  
+  
+  <script type="text/javascript" src="/assets/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+  
+  
+  
+  <script type="text/javascript" src="/assets/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  
+  
+  
+  
+  <script type="text/javascript" src="/assets/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  
+  
+  
+  
+  <script type="text/javascript" src="/assets/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  
+  
+  
+  
+  <script type="text/javascript" src="/assets/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  
+  
+  
+  
+  <script type="text/javascript" src="/assets/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/assets/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/assets/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  <script type="text/javascript" src="/assets/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/assets/js/src/post-details.js?v=5.1.1"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/assets/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+
+    
+
+  
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+  
+
+  
+  
+
+
+  
+
+  
+
+  
+
+</body>
+</html>
+
