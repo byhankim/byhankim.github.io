@@ -3,9 +3,39 @@
   
     <entry>
       <title><![CDATA[]]></title>
-      <url>/2021/01/07/2020-12-11-recall/</url>
+      <url>/2021/01/10/2020-12-11-recall/</url>
       <content type="text"><![CDATA[현황계획]]></content>
       <categories>
+        
+      </categories>
+      <tags>
+        
+      </tags>
+      <tags></tags>
+    </entry>
+  
+    <entry>
+      <title><![CDATA[21.01.10 til]]></title>
+      <url>/til/2021/01/10/til/</url>
+      <content type="text"><![CDATA[오늘 한 일  Selenium으로 쿠팡 크롤링하기 도전과제를 완수했다.물론 20프로같은 2프로가 부족하긴 하지만 베이스 코드를 벗어나 무언가를 직접 구현해본게 참 오랜만이어서 더욱 만족스러웠다. AIFFEL 해커톤때 한글 트위터 데이터 크롤링하는 방법을 알았다면 좋았을것이다. 추후 페이징처리 부분을 좀 더 보완해서 나중에 데이터셋 구하는데 차질이 없도록 해봐야겠다.          자체 도전과제                  다양한 selenium의 webdriver함수 써보기          쿠팡 외에도 트위터, 네이버, 유튜브 댓글, 아마존, 이베이 등등 다양한 사이트 크롤링 도전하기                    pandas.DataFrame.append() 함수를 쓰려거든 꼭 df = df.append(another_df) 형식으로 리턴값을 재할당 해줘야 한다. 이걸 몰라서 파이썬 스코프에 대해 한시간 동안 고민했다!        자구/알고 공부가 시원찮다. 부캠 코테도 사실 어렵긴 했지만 꾸준히 ps를 했다면 탈락하지 않았을 것이다.  딥러닝 다 까먹게 생겼다. 내일부터 간단한 예제 소스라도 돌려봐야겠다.  포스코 교육을 대비해 다변량미적분, 선형대수, 확률, 통계를 정복해야 한다. 이것 역시 내일부터 도전!  SBA슬랙이 좀 더 활성화되면 좋겠다.  취업하고시퍼요..!]]></content>
+      <categories>
+        
+          <category> TIL </category>
+        
+      </categories>
+      <tags>
+        
+      </tags>
+      <tags></tags>
+    </entry>
+  
+    <entry>
+      <title><![CDATA[MLOps 스터디 0주차]]></title>
+      <url>/study/mlops/2021/01/08/mlops-w00/</url>
+      <content type="text"><![CDATA[MLOps 스터디를 시작했다. AIFFEL에서 같이 공부하던 분들과 함께 MLOps라는 새로운 분야에 대해 긴 호흡으로 다져보고자 한다. 첫타자로 Introducing MLOps(O’Reiley) 교재를 주당 3챕터씩, 각 챕터당 한 명이 공부하여 정리하고 발표하는 방식이다. 나는 4장 정리와 발표를 맡았다.]]></content>
+      <categories>
+        
+          <category> study/MLOps </category>
         
       </categories>
       <tags>
