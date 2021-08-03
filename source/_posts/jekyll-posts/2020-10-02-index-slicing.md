@@ -5,6 +5,7 @@ categories:
   - algorithms
 tags: python
 toc: true
+date: 2020-10-02 00:00:00
 ---
 
 # 파이썬 슬라이싱
