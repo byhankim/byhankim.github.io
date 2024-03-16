@@ -153,7 +153,7 @@
       <div class="post-attach">
         <span class="post-pubtime">
           <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
-          2024-03-13 01:07:46
+          2024-03-13 01:12:25
         </span>
         
       </div>
@@ -223,7 +223,7 @@
 <p>이 명령을 실행하면 Hexo가 사이트를 빌드하고 미리 지정한 GitHub 저장소로 push하므로 <a target="_blank" rel="noopener" href="https://username.github.io로/">https://username.github.io로</a> 내가 만든 정적 블로그를 방문할 수 있다.</p>
 <p>하지만 그 전에 해야할 게 좀 있다.</p>
 <p><strong>1. 배포 설정 추가</strong><br><code>_config.yml</code> 파일 끝부분 즈음에 <code>deploy</code> 옵션을 손봐줘야 한다. 이걸 안 하면 배포 자체가 안 된다. 난 예전에 해봤다고 방심하다가 여러 번 실패하고 삽질을 거쳐 해당 부분을 손봐줬다.</p>
-<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">deploy:</span></span><br><span class="line">  <span class="attr">type:</span> <span class="string">git</span></span><br><span class="line">  <span class="attr">repository:</span> <span class="string">https://github.com/&lt;username&gt;/&lt;username&gt;.github.io.git</span></span><br><span class="line">  <span class="attr">branch:</span> <span class="string">master</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">deploy:</span></span><br><span class="line">  <span class="attr">type:</span> <span class="string">git</span></span><br><span class="line">  <span class="attr">repository:</span> <span class="string">https://github.com/&lt;username&gt;/&lt;username&gt;.github.io.git</span></span><br><span class="line">  <span class="attr">branch:</span> <span class="string">main</span></span><br></pre></td></tr></table></figure>
 
 <p><strong>2. 배포를 위한 플러그인 추가</strong><br>이게 없으면 <code>hexo deploy</code>는 소용이 없다.</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-deployer-git --save</span><br></pre></td></tr></table></figure>
@@ -269,7 +269,7 @@
           <div class="post-attach">
             <span class="post-pubtime">
               <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
-              2024-03-13 01:07:46
+              2024-03-13 01:12:25
             </span>
             
           </div>
