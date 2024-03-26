@@ -13,8 +13,8 @@
   
   <title>
     
-      원활한 코딩테스트를 위해 공부해볼만한 토픽들 ft.ChatGPT 
-      
+      Tag 
+       : etc
       
       |
     
@@ -104,150 +104,30 @@
 
 
       <div class="flex-container">
-        <!-- 文章详情页，展示文章具体内容，url形式：https://yoursite/文章标题/ -->
-<!-- 同时为「标签tag」，「朋友friend」，「分类categories」，「关于about」页面的承载页面，具体展示取决于page.type -->
+        <!-- 标签详情页，展示某个标签下的文章列表，url形式：https://yoursite/tags/某个标签/ -->
 
-
-  <!-- LaTex Display -->
-
-  
-    <script async type="text/javascript" src="/plugins/mathjax/tex-chtml.js"></script>
-  
-  <script>
-    MathJax = {
-      tex: {
-        inlineMath: [['$', '$'], ['\\(', '\\)']]
-      }
-    }
-  </script>
-
-
-
-
-
-  <!-- clipboard -->
-
-  
-    <script async type="text/javascript" src="/plugins/clipboard.min.js"></script>
-  
-  
-<script src="/js/codeCopy.js"></script>
-
-
-
-
-
-
-
-  
-
-  
-
-  
-
-  
-  <!-- 文章内容页 url形式：https://yoursite/文章标题/ -->
-  <div class="container post-details" id="post-details">
-    <div class="post-content">
-      <div class="post-title">원활한 코딩테스트를 위해 공부해볼만한 토픽들 ft.ChatGPT</div>
-      <div class="post-attach">
-        <span class="post-pubtime">
-          <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
-          2024-03-25 23:34:54
-        </span>
-        
-              <span class="post-tags">
-                <i class="iconfont icon-tags mr-10" title="Tags"></i>
-                
-                <span class="span--tag mr-8">
-                  <a href="/tags/algorithms/" title="algorithms">
-                    #algorithms
-                  </a>
-                </span>
-                
-              </span>
-          
-      </div>
-      <div class="markdown-body">
-        <p>코딩 테스트를 위한 알고리즘 공부 방향성을 잡아줄 <a target="_blank" rel="noopener" href="https://openingsound.tistory.com/114">좋은 글</a>을 찾아 해당 토픽들의 간단한 개념 및 용처를 챗지피티를 통해 정리해 보았다.</p>
-<ol>
-<li><strong>완전탐색 (Brute Force)</strong>: 가능한 모든 경우의 수를 직접 검사하여 문제의 해를 찾는 방법. 소규모 데이터셋에서 모든 가능성을 탐색할 때 사용.</li>
-<li><strong>그리디 (Greedy)</strong>: 매 순간 최적이라고 생각되는 선택을 하여 최종적인 해답에 도달하는 방식. 각 단계에서의 최적의 해가 전체에서도 최적의 해를 보장하는 경우에 적합.</li>
-<li><strong>분할 정복 (Divide and Conquer)</strong>: 큰 문제를 작은 문제로 나누어 해결한 뒤, 작은 문제의 해를 결합하여 원래 문제의 해를 찾는 방식. 정렬, 고속 푸리에 변환 등에 사용.</li>
-<li><strong>BFS (Breadth-First Search)</strong>: 너비 우선 탐색으로, 가까운 노드부터 차례대로 탐색하는 알고리즘. 최단 경로 찾기나 레벨별 탐색에 유용.</li>
-<li><strong>DFS (Depth-First Search)</strong>: 깊이 우선 탐색으로, 가능한 멀리 있는 노드까지 탐색하며 미로 찾기, 사이클 검출에 적합.</li>
-<li><strong>DP (Dynamic Programming)</strong>: 복잡한 문제를 간단한 여러 개의 하위 문제로 나누어 푸는 방법, 중복 계산을 피하기 위해 이전에 계산한 값을 저장. 최적화 문제나 카운팅 문제에 사용.</li>
-<li><strong>최단경로</strong>: 그래프에서 두 노드 사이의 가장 짧은 경로를 찾는 문제, 다익스트라, 벨만-포드, 플로이드-워셜 알고리즘 등이 있음.<ol>
-<li><strong>다익스트라(Dijkstra) 알고리즘</strong>: 시작 정점으로부터 다른 모든 정점까지의 최단 거리를 구하는 알고리즘으로, 가중치가 음수인 간선이 없을 때 사용 가능.</li>
-<li><strong>벨만-포드(Bellman-Ford) 알고리즘</strong>: 시작 정점으로부터 다른 모든 정점까지의 최단 거리를 구하는 알고리즘으로, 가중치가 음수인 간선이 있어도 사용 가능하며 음수 사이클의 존재 여부도 판별. 복잡도는 O(VE)로, 다익스트라 알고리즘보다 느림.</li>
-<li><strong>플로이드-워셜(Floyd-Warshall) 알고리즘</strong>: 모든 정점 쌍 사이의 최단 거리를 구하는 알고리즘으로, 가중치가 음수인 간선이 있어도 사용할 수 있고, 모든 정점 사이의 최단 거리를 한 번에 알 수 있는 것이 장점. 복잡도는 O(V^3)으로, 큰 그래프에서는 비효율적.</li>
-</ol>
-</li>
-<li><strong>이분탐색 (Binary Search)</strong>: 정렬된 리스트에서 특정 값의 위치를 빠르게 찾는 알고리즘. 값이나 조건을 만족하는 범위를 찾을 때 사용.</li>
-<li><strong>슬라이딩 윈도우 (Sliding Window)</strong>: 배열이나 리스트의 일정 범위의 요소를 윈도우처럼 슬라이드하면서 문제를 해결하는 방법. 연속된 데이터의 최댓값, 최솟값, 합계 등을 효율적으로 계산할 때 사용.</li>
-<li><strong>투 포인터 (Two Pointers)</strong>: 시작점과 끝점 두 개의 포인터를 이용해 범위를 조절하며 문제를 해결하는 방식. 정렬된 배열에서 두 수의 합, 연속 부분 수열 찾기 등에 유용.</li>
-<li><strong>유니온 파인드 (Union-Find)</strong>: 집합을 표현하고, 두 원소가 같은 집합에 속하는지를 판단하는 자료구조. 그래프의 연결성, 서로소 집합 문제에 사용.</li>
-<li><strong>최소 신장 트리 (Minimum Spanning Tree)</strong>: 그래프 내의 모든 정점을 최소한의 비용으로 연결하는 트리. 프림, 크루스칼 알고리즘 등이 있음.</li>
-<li><strong>BBST (Balanced Binary Search Tree)</strong>: 이진 탐색 트리의 균형을 맞추어 탐</li>
-<li><strong>세그먼트 트리 (Segment Tree)</strong>: 구간 쿼리 문제(예: 구간의 합, 최소값, 최대값 조회 등)를 빠르게 처리하기 위한 이진 트리 기반의 자료구조로, 변경이 잦은 데이터 집합에서도 빠른 연산을 지원함.</li>
-</ol>
-
-      </div>
-      
-        <div class="prev-or-next">
-          <div class="post-foot-next">
-            
-              <a href="/2024/03/22/til-240322/" target="_self">
-                <i class="iconfont icon-chevronleft"></i>
-                <span>Prev</span>
-              </a>
-            
-          </div>
-          <div class="post-attach">
-            <span class="post-pubtime">
-              <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
-              2024-03-25 23:34:54
-            </span>
-            
-                  <span class="post-tags">
-                    <i class="iconfont icon-tags mr-10" title="Tags"></i>
-                    
-                    <span class="span--tag mr-8">
-                      <a href="/tags/algorithms/" title="algorithms">
-                        #algorithms
-                      </a>
-                    </span>
-                    
-                  </span>
-              
-          </div>
-          <div class="post-foot-prev">
-            
-              <a href="/2024/03/26/yey/" target="_self">
-                <span>Next</span>
-                <i class="iconfont icon-chevronright"></i>
-              </a>
-            
-          </div>
-        </div>
-      
-    </div>
-    
-
-    
-      <div class="comments-container">
-        
-
-
-
-
-
-
-
-      </div>
-    
+<div class="container tag-details">
+  <div class="content-title">
+    <h2>
+      <span>etc</span>
+    </h2>
   </div>
-
+  
+    <div class="post-list">
+      <div class="post-item" title="(경)프로그래머스 기초 문제 올클(축)">
+        <span class="time-m-d">2024-03-26</span>
+        <a href="/2024/03/26/yey/">
+          <span>(경)프로그래머스 기초 문제 올클(축)</span>
+        </a>
+      </div>
+    </div>
+  
+  <nav class="post-navigation">
+    
+    <span class="page-num">1 / 1</span>
+    
+  </nav>
+</div>
 
         
 <div class="footer">
@@ -504,24 +384,6 @@
 
 
         
-  
-    <div class="share-icon tools-bar-item">
-      <a href="javascript: void(0)" id="share-icon">
-        <i class="iconfont iconshare"></i>
-      </a>
-      <div class="share-content hidden">
-        
-          <a class="share-item" href="https://twitter.com/intent/tweet?text=' + %EC%9B%90%ED%99%9C%ED%95%9C%20%EC%BD%94%EB%94%A9%ED%85%8C%EC%8A%A4%ED%8A%B8%EB%A5%BC%20%EC%9C%84%ED%95%B4%20%EA%B3%B5%EB%B6%80%ED%95%B4%EB%B3%BC%EB%A7%8C%ED%95%9C%20%ED%86%A0%ED%94%BD%EB%93%A4%20ft.ChatGPT + '&url=' + https%3A%2F%2Fbyhankim.github.io%2F2024%2F03%2F25%2Falgo-topics%2F + '" target="_blank" title="Twitter">
-            <i class="iconfont icon-twitter"></i>
-          </a>
-        
-        
-          <a class="share-item" href="https://www.facebook.com/sharer.php?u=https://byhankim.github.io/2024/03/25/algo-topics/" target="_blank" title="Facebook">
-            <i class="iconfont icon-facebooksquare"></i>
-          </a>
-        
-      </div>
-    </div>
   
   
 <script src="/js/shares.js"></script>
