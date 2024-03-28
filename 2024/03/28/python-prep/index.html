@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en" color-mode="light">
+
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="author" content="byhankim" />
+  <!-- Open Graph Description 简短摘要-->
+  
+  <!-- 用于搜索引擎的文章摘要 -->
+  
+  
+  
+  <title>
+    
+      파이썬 인덱스 다루기 ft. 코딩 테스트 
+      
+      
+      |
+    
+     dev-o-rama
+  </title>
+
+  
+    <link rel="apple-touch-icon" href="/images/bird_favicon_resize.png">
+    <link rel="icon" href="/images/bird_favicon_resize.png">
+  
+
+  <!-- Raleway-Font -->
+  <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
+
+  <!-- hexo site css -->
+  <link rel="stylesheet" href="/css/main.css" />
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
+  <!-- 代码块风格 -->
+  
+
+  <!-- jquery3.3.1 -->
+  
+    <script defer type="text/javascript" src="/plugins/jquery.min.js"></script>
+  
+
+  <!-- fancybox -->
+  
+    <link href="/plugins/jquery.fancybox.min.css" rel="stylesheet">
+    <script defer type="text/javascript" src="/plugins/jquery.fancybox.min.js"></script>
+  
+  
+<script src="/js/fancybox.js"></script>
+
+
+  
+
+  
+
+  <script>
+    var html = document.documentElement
+    const colorMode = localStorage.getItem('color-mode')
+    if (colorMode) {
+      document.documentElement.setAttribute('color-mode', colorMode)
+    }
+  </script>
+<meta name="generator" content="Hexo 7.1.1"></head>
+
+
+  <body>
+    <div id="app">
+      <div class="header">
+  <div class="avatar">
+    <a href="/">
+      <!-- 头像取消懒加载，添加no-lazy -->
+      
+        <img src="/images/bird_icon.png" alt="">
+      
+    </a>
+    <div class="nickname"><a href="/">dev-o-rama</a></div>
+  </div>
+  <div class="navbar">
+    <ul>
+      
+        <li class="nav-item" data-path="/">
+          <a href="/">Home</a>
+        </li>
+      
+        <li class="nav-item" data-path="/archives/">
+          <a href="/archives/">Archives</a>
+        </li>
+      
+        <li class="nav-item" data-path="/tags/">
+          <a href="/tags/">Tags</a>
+        </li>
+      
+        <li class="nav-item" data-path="/about/">
+          <a href="/about/">About</a>
+        </li>
+      
+    </ul>
+  </div>
+</div>
+
+
+<script src="/js/activeNav.js"></script>
+
+
+
+      <div class="flex-container">
+        <!-- 文章详情页，展示文章具体内容，url形式：https://yoursite/文章标题/ -->
+<!-- 同时为「标签tag」，「朋友friend」，「分类categories」，「关于about」页面的承载页面，具体展示取决于page.type -->
+
+
+  <!-- LaTex Display -->
+
+  
+    <script async type="text/javascript" src="/plugins/mathjax/tex-chtml.js"></script>
+  
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      }
+    }
+  </script>
+
+
+
+
+
+  <!-- clipboard -->
+
+  
+    <script async type="text/javascript" src="/plugins/clipboard.min.js"></script>
+  
+  
+<script src="/js/codeCopy.js"></script>
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  <!-- 文章内容页 url形式：https://yoursite/文章标题/ -->
+  <div class="container post-details" id="post-details">
+    <div class="post-content">
+      <div class="post-title">파이썬 인덱스 다루기 ft. 코딩 테스트</div>
+      <div class="post-attach">
+        <span class="post-pubtime">
+          <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
+          2024-03-28 22:21:45
+        </span>
+        
+              <span class="post-tags">
+                <i class="iconfont icon-tags mr-10" title="Tags"></i>
+                
+                <span class="span--tag mr-8">
+                  <a href="/tags/python-algorithms/" title="python, algorithms">
+                    #python, algorithms
+                  </a>
+                </span>
+                
+              </span>
+          
+      </div>
+      <div class="markdown-body">
+        <p>예전에 쓴 포스트를 재업로드 해 본다. 추후 numpy, pandas 및 문자열 부분까지 추가로 정리해보면 좋을 것 같다. 간만에 파이썬을 다시 보니 코틀린과의 다른 점이 확실히 보여서 흥미로운 부분이 많다.</p>
+<h1 id="파이썬-슬라이싱"><a href="#파이썬-슬라이싱" class="headerlink" title="파이썬 슬라이싱"></a>파이썬 슬라이싱</h1><p>매일 알고 한 문제 풀기에 도전하고 있지만 쉬운 난이도의 문제들임에도 고전을 면치 못하고 있다. 근본 원인으로는 아직도 파이썬 문법에 익숙하지 않은 것을 들 수 있겠지만, 기초적인 행&#x2F;열 데이터 다루는 것이 아직 낯설다는 점이 가장 크다. 이에 평소에 잘 모르고 대충 사용하던 파이썬 1, 2차원 배열 형태 자료구조들의 인덱스 슬라이싱과 행렬 데이터 추출에 대해 공부한것을 확실히 정리해보고자 한다.</p>
+<p>우선 다음과 같은 1차원, 2차원 배열이 존재한다는 것을 가정하고 진행한다.</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">arr = [<span class="number">0</span>,<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>]</span><br><span class="line"></span><br><span class="line">grid = [[<span class="number">0</span>,<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>],</span><br><span class="line">        [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>,<span class="number">7</span>],</span><br><span class="line">        [<span class="number">9</span>,<span class="number">9</span>,<span class="number">4</span>,<span class="number">7</span>,<span class="number">3</span>,<span class="number">2</span>,<span class="number">2</span>],</span><br><span class="line">        [<span class="number">1</span>,<span class="number">7</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">2</span>,<span class="number">6</span>,<span class="number">3</span>],</span><br><span class="line">        [<span class="number">7</span>,<span class="number">3</span>,<span class="number">5</span>,<span class="number">2</span>,<span class="number">5</span>,<span class="number">2</span>,<span class="number">7</span>],</span><br><span class="line">        [<span class="number">6</span>,<span class="number">3</span>,<span class="number">5</span>,<span class="number">9</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">1</span>],</span><br><span class="line">        [<span class="number">3</span>,<span class="number">6</span>,<span class="number">2</span>,<span class="number">7</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">1</span>]]</span><br></pre></td></tr></table></figure>
+
+<h1 id="인덱스-슬라이싱"><a href="#인덱스-슬라이싱" class="headerlink" title="인덱스 슬라이싱"></a>인덱스 슬라이싱</h1><p>슬라이싱 하면 가장 먼저 떠오르는 것은 햄을 자르는 행위이다. 내가 원하는 부분부터 원하는 길이까지 설정한 다음 자른다. 파이썬의 인덱스 슬라이싱 또한 같다.</p>
+<h2 id="1차원-배열에서-개별-요소-추출하기"><a href="#1차원-배열에서-개별-요소-추출하기" class="headerlink" title="1차원 배열에서 개별 요소 추출하기"></a>1차원 배열에서 개별 요소 추출하기</h2><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># arr의 0, 3, 6번째 요소 출력하기</span></span><br><span class="line"><span class="built_in">print</span>(arr[<span class="number">0</span>], arr[<span class="number">3</span>], arr[<span class="number">6</span>])   <span class="comment"># 0 3 6</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="뒤에서-n번째-요소-추출하기"><a href="#뒤에서-n번째-요소-추출하기" class="headerlink" title="뒤에서 n번째 요소 추출하기"></a>뒤에서 n번째 요소 추출하기</h2><p>뒤에서부터 출력할 시 -1부터 시작하여 -1씩 작아진다(arr[-1]은 뒤에서 첫 번째 요소, arr[-2]는 뒤에서 두 번째 요소)</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">print</span>(arr[-<span class="number">1</span>], arr[-<span class="number">2</span>])         <span class="comment"># 6 5</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="1차원-배열에서-여러-요소-추출하기"><a href="#1차원-배열에서-여러-요소-추출하기" class="headerlink" title="1차원 배열에서 여러 요소 추출하기"></a>1차원 배열에서 여러 요소 추출하기</h2><p><code>변수명[시작인덱스:종료인덱스]</code> 와 같이 표현한다. 다만 종료인덱스의 값은 포함되지 않는다. 시작 인덱스 혹은 종료 인덱스 생략시 자동으로 알아서 시작부터, 혹은 끝까지 알아서 늘어진다.</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># arr의 0~3, 2~6번째 요소 출력하기</span></span><br><span class="line"><span class="built_in">print</span>(arr[<span class="number">0</span>:<span class="number">3</span>], arr[<span class="number">2</span>:<span class="number">6</span>])     <span class="comment"># [0, 1, 2] [2, 3, 4, 5]</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="1차원-배열에서-n번씩-건너띄어-요소-추출하기"><a href="#1차원-배열에서-n번씩-건너띄어-요소-추출하기" class="headerlink" title="1차원 배열에서 n번씩 건너띄어 요소 추출하기"></a>1차원 배열에서 n번씩 건너띄어 요소 추출하기</h2><p><code>변수명[시작인덱스:종료인덱스:n번마다]</code> 와 같이 표현한다. 인덱스 대괄호([]) 안은 시작(포함):끝(미포함):n번마다 형식으로 이루어진다. 두번째 <code>:</code> 생략시 default값인 1로 자동 설정된다.</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># arr의 짝수 번째 요소(0,2,4,6) 요소만 출력하기</span></span><br><span class="line"><span class="built_in">print</span>(arr[::<span class="number">2</span>])       <span class="comment"># [0, 2, 4, 6]</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># arr의 홀수 번째 요소(1,3,5)만 출력하기</span></span><br><span class="line"><span class="built_in">print</span>(arr[<span class="number">1</span>::<span class="number">2</span>])      <span class="comment"># [1, 3, 5]</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># arr의 2,3,4,5번째 인덱스 중 짝수 번째만 출력하기</span></span><br><span class="line"><span class="built_in">print</span>(arr[<span class="number">2</span>:<span class="number">6</span>:<span class="number">2</span>])     <span class="comment"># [2, 4]</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="1차원-배열-뒤집기"><a href="#1차원-배열-뒤집기" class="headerlink" title="1차원 배열 뒤집기"></a>1차원 배열 뒤집기</h2><p><code>[::n]</code> 에서 n을 <code>-1</code>로 설정하면 거꾸로 인덱싱이 이루어지므로 배열 뒤집기가 가능하다</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment"># 배열 뒤집기</span></span><br><span class="line"><span class="built_in">print</span>(arr[::-<span class="number">1</span>])            <span class="comment"># [6, 5, 4, 3, 2, 1, 0]</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 2,3,4번째 요소를 뒤집어서 출력하기</span></span><br><span class="line"><span class="built_in">print</span>(arr[<span class="number">5</span>:<span class="number">1</span>:-<span class="number">1</span>])          <span class="comment"># [5, 4, 3, 2]</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 2번째 요소부터 맨 뒤 요소까지 거꾸로 출력</span></span><br><span class="line"><span class="built_in">print</span>(arr[:<span class="number">1</span>:-<span class="number">1</span>])           <span class="comment"># [6, 5, 4, 3, 2]</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 참고로 맨 뒤 -1 설정 없이 시작:끝 인덱스에 음수를 넣을 경우 뒤집어지지 않는다</span></span><br><span class="line"><span class="built_in">print</span>(arr[:-<span class="number">3</span>])             <span class="comment"># [0, 1, 2, 3]</span></span><br><span class="line"><span class="built_in">print</span>(arr[-<span class="number">3</span>:])             <span class="comment"># [4, 5, 6]</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="1차원-배열-왼쪽-오른쪽으로-n칸씩-움직이기"><a href="#1차원-배열-왼쪽-오른쪽으로-n칸씩-움직이기" class="headerlink" title="1차원 배열 왼쪽&#x2F;오른쪽으로 n칸씩 움직이기"></a>1차원 배열 왼쪽&#x2F;오른쪽으로 n칸씩 움직이기</h2><p>temp 변수를 선언하여 n-1 번째 인덱스까지 혹은 n번 인덱스부터 값을 따로 저장한 후 해당 공백만큼 기존 배열 값들을 이동한 후 다시 temp에 저장된 일부 요소들을 더해준다.</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 왼쪽으로 4칸 시프트</span></span><br><span class="line">temp = arr[:<span class="number">4</span>]</span><br><span class="line">arr = arr[<span class="number">4</span>:]</span><br><span class="line">arr = arr + temp</span><br><span class="line"><span class="built_in">print</span>(arr)                  <span class="comment"># [4, 5, 6, 0, 1, 2, 3]</span></span><br></pre></td></tr></table></figure>
+
+<p>temp 없이 짧게 구하는 방법도 있다. 어느 쪽으로 시프트(혹은 회전)하느냐에 따라 <code>[:n]</code>, <code>[n:]</code> 의 위치를 바꿔주기만 하면 된다.</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">arr = arr[<span class="number">4</span>:] + arr[:<span class="number">4</span>]</span><br><span class="line"><span class="built_in">print</span>(arr)</span><br></pre></td></tr></table></figure>
+
+<p>**가장 빠른 방법(list에 한해서는)**도 있지만 오른쪽으로 시프트하는 경우 추가 연산이 발생하여 비효율적이다.</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">drr = arr[:]</span><br><span class="line"><span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">3</span>):</span><br><span class="line">    drr.append(drr.pop(<span class="number">0</span>))</span><br><span class="line"><span class="built_in">print</span>(drr)</span><br></pre></td></tr></table></figure>
+
+<h1 id="2차원-배열-다루기"><a href="#2차원-배열-다루기" class="headerlink" title="2차원 배열 다루기"></a>2차원 배열 다루기</h1><h2 id="행-출력하기"><a href="#행-출력하기" class="headerlink" title="행 출력하기"></a>행 출력하기</h2><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 모든 행 출력하기</span></span><br><span class="line"><span class="keyword">for</span> g <span class="keyword">in</span> grid:</span><br><span class="line">    <span class="built_in">print</span>(g)                    <span class="comment"># 각 행이 순서대로 출력</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 모든 행의 0~3번째 인덱스 까지만 출력하기</span></span><br><span class="line"><span class="keyword">for</span> g <span class="keyword">in</span> grid:</span><br><span class="line">    <span class="built_in">print</span>(g[:<span class="number">4</span>])                <span class="comment"># 각 행의 0,1,2,3번째 인덱스가 정상 출력된다</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 모든 행을 뒤집어(거꾸로) 출력하기</span></span><br><span class="line"><span class="keyword">for</span> g <span class="keyword">in</span> grid:</span><br><span class="line">    <span class="built_in">print</span>(g[::-<span class="number">1</span>])              <span class="comment"># [6, 5, 4, 3, 2, 1, 0]</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 7행 중 첫 다섯 행만 출력하기</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">5</span>):</span><br><span class="line">    <span class="built_in">print</span>(grid[i])              <span class="comment"># [0, 1, 2, 3, 4, 5, 6] ...</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 첫 다섯 행 중 0~4번째 인덱스만 출력하기</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">5</span>):</span><br><span class="line">    <span class="built_in">print</span>(grid[i][:<span class="number">5</span>])          <span class="comment"># [0, 1, 2, 3, 4] ...</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 첫 다섯 행 중 0~4번째 인덱스만 거꾸로 출력하기</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">5</span>):</span><br><span class="line">    <span class="built_in">print</span>(grid[i][<span class="number">4</span>::-<span class="number">1</span>])       <span class="comment"># [4, 3, 2, 1, 0] ...</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="List-comprehension-방식으로-모든-행-출력하기"><a href="#List-comprehension-방식으로-모든-행-출력하기" class="headerlink" title="List comprehension 방식으로 모든 행 출력하기"></a>List comprehension 방식으로 모든 행 출력하기</h2><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 0행 출력</span></span><br><span class="line"><span class="built_in">print</span>([i <span class="keyword">for</span> i <span class="keyword">in</span> grid[<span class="number">0</span>]])     <span class="comment"># []으로 감싸주지 않으면 object 주소만 출력된다</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 모든 행 출력</span></span><br><span class="line"><span class="built_in">print</span>([r <span class="keyword">for</span> r <span class="keyword">in</span> grid])</span><br><span class="line"></span><br><span class="line"><span class="comment"># 모든 행의 1~4열 출력</span></span><br><span class="line"><span class="built_in">print</span>([r[<span class="number">1</span>:<span class="number">5</span>] <span class="keyword">for</span> r <span class="keyword">in</span> grid])   <span class="comment"># 2차원 리스트</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 모든 행의 1~4열 거꾸로 출력</span></span><br><span class="line"><span class="built_in">print</span>([r[<span class="number">4</span>:<span class="number">0</span>:-<span class="number">1</span>] <span class="keyword">for</span> r <span class="keyword">in</span> grid])<span class="comment"># 2차원 리스트</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 모든 행의 개별 요소를 전부 출력</span></span><br><span class="line"><span class="built_in">print</span>([e <span class="keyword">for</span> r <span class="keyword">in</span> grid <span class="keyword">for</span> e <span class="keyword">in</span> r])</span><br><span class="line"><span class="comment"># 해석: for r in grid:</span></span><br><span class="line"><span class="comment">#           for e in r:</span></span><br><span class="line"><span class="comment">#               print(e, end=&#x27; &#x27;)</span></span><br><span class="line"><span class="comment"># [e for e in r for r in grid] 로 실행시 r이 정의되지 않음(not defined)에러 발생</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="번외-리스트-안의-값-출력하기"><a href="#번외-리스트-안의-값-출력하기" class="headerlink" title="(번외)리스트 안의 값 출력하기"></a>(번외)리스트 안의 값 출력하기</h2><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 모든 행의 개별 요소를 띄어쓰기와 리스트 기호 [] 없이 출력</span></span><br><span class="line"><span class="keyword">for</span> e <span class="keyword">in</span> arr:</span><br><span class="line">    <span class="built_in">print</span>(e, end=<span class="string">&#x27; &#x27;</span>)           <span class="comment"># 0 1 2 3 4 5 6</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 동일 작업을 간편하게 표현(* 를 사용)</span></span><br><span class="line"><span class="built_in">print</span>(*[e <span class="keyword">for</span> e <span class="keyword">in</span> arr])        <span class="comment"># 0 1 2 3 4 5 6</span></span><br></pre></td></tr></table></figure>
+
+<p>엄밀히 말하면 완전히 같지는 않다. 전자는 매번 개별 요소를 출력하고 <code>end=</code>뒤에 오는 파라미터 값을 추가로 출력한다. 즉 0~6 모두 옆에 공백을 추가해주는 형식이다. 반면 후자는 자동으로 띄어쓰기가 이루어지고 굳이 end를 설정해주지 않아도 된다.</p>
+<h2 id="열-출력하기-Transpose-Matrix-만들기"><a href="#열-출력하기-Transpose-Matrix-만들기" class="headerlink" title="열 출력하기( &#x3D;Transpose Matrix 만들기)"></a>열 출력하기( &#x3D;Transpose Matrix 만들기)</h2><p>개인적으로 가장 헷갈렸던 부분이다. 크게 <code>for문</code> 사용, 리스트 컴프리헨션 사용, 그리고 <code>zip(*iterable)</code> 방식이 있다. iterable이란 문자열이나 리스트와 같이 <strong>순환 가능</strong>한 자료구조를 의미한다. 순환 가능하다는 것의 의미는 <code>grid</code>와 같은 변수(파이썬의 모든 <code>자료형=객체=데이터=변수</code>는 Object의 진전을 이은 객체이므로 grid 변수 또한 객체이다)가 있다고 가정했을 때 0번째, 1번째, …, n번째를 돌며 반복 가능한 객체를 말한다.</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 2차원 리스트의 0번째 열만 출력하기</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">7</span>):</span><br><span class="line">    <span class="built_in">print</span>(grid[i][<span class="number">0</span>], end=<span class="string">&#x27; &#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 0번째 열을 리스트 컴프리센션을 이용하여 한 줄로 출력</span></span><br><span class="line"><span class="built_in">print</span>(*[r[<span class="number">0</span>] <span class="keyword">for</span> r <span class="keyword">in</span> grid])</span><br><span class="line"></span><br><span class="line"><span class="comment"># 2차원 리스트의 열끼리 출력(0, 1, 2, ...)</span></span><br><span class="line"><span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">7</span>):</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">7</span>):</span><br><span class="line">        <span class="built_in">print</span>(grid[i][j], end=<span class="string">&#x27; &#x27;</span>)</span><br><span class="line">    <span class="built_in">print</span>()</span><br><span class="line"></span><br><span class="line"><span class="comment"># list comprehension을 통한 간편한 처리</span></span><br><span class="line"><span class="built_in">print</span>()</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">7</span>):</span><br><span class="line">    <span class="built_in">print</span>(*[r[i] <span class="keyword">for</span> r <span class="keyword">in</span> grid])</span><br></pre></td></tr></table></figure>
+
+<p><strong>zip(*iterable)</strong> 방식으로 2차원 행렬을 <code>튜플 형식의 Transpose 행렬</code>로 바꿀 수 있다. 이를 리스트로 바꾸고 싶다면 각 행별로 <code>list()</code>로 감싸주어 형변환을 진행하자.</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">grid_z = <span class="built_in">list</span>(<span class="built_in">zip</span>(*grid))       <span class="comment"># [(), (), (), ..., ()] 형식이 된다.</span></span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">list</span>(grid_z[<span class="number">0</span>]))          <span class="comment"># 형변환 안하면 튜플 형식이 나온다.</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 이렇게도 표현 가능하다. 하지만 튜플 형식 값이 나오므로 따로 list() 처리가 필요하다.</span></span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">list</span>(<span class="built_in">zip</span>(*grid))[<span class="number">0</span>])      <span class="comment"># (0, 1, 9, 1, 7, 6, 3)</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 모두 리스트 형으로 바꾸기</span></span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">list</span>(<span class="built_in">map</span>(<span class="built_in">list</span>,<span class="built_in">zip</span>(*grid))))</span><br></pre></td></tr></table></figure>
+
+<p><strong>대망의 numpy 방식을 알아보자.</strong><br>for문을 돌려서 각 행의 열들만 출력하는 방식과 <code>a.T</code> 메소드로 전치행렬을 만들어버리는 방식도 존재한다.</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line">a = np.array(grid)               <span class="comment"># numpy 배열로 변환</span></span><br><span class="line"><span class="comment"># grid_np = np.array([[1,2,3], [&#x27;a&#x27;,&#x27;b&#x27;,&#x27;c&#x27;]]) 처럼 직접 입력도 가능하다</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># for문으로 열만 추출</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">7</span>):</span><br><span class="line">    <span class="built_in">print</span>(a[:,i])</span><br><span class="line"></span><br><span class="line"><span class="comment"># .T 메소드로 전치행렬 만들기</span></span><br><span class="line">grid_t = a.T</span><br><span class="line"><span class="built_in">print</span>(grid_t)</span><br></pre></td></tr></table></figure>
+
+<h1 id="결론"><a href="#결론" class="headerlink" title="결론"></a>결론</h1><p>numpy 씁시다. pandas 씁시다(pandas에선 loc(), iloc() 등으로 행과 열을 지정하여 요소들을 추출할 수 있다.).</p>
+
+      </div>
+      
+        <div class="prev-or-next">
+          <div class="post-foot-next">
+            
+              <a href="/2024/03/26/yey/" target="_self">
+                <i class="iconfont icon-chevronleft"></i>
+                <span>Prev</span>
+              </a>
+            
+          </div>
+          <div class="post-attach">
+            <span class="post-pubtime">
+              <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
+              2024-03-28 22:21:45
+            </span>
+            
+                  <span class="post-tags">
+                    <i class="iconfont icon-tags mr-10" title="Tags"></i>
+                    
+                    <span class="span--tag mr-8">
+                      <a href="/tags/python-algorithms/" title="python, algorithms">
+                        #python, algorithms
+                      </a>
+                    </span>
+                    
+                  </span>
+              
+          </div>
+          <div class="post-foot-prev">
+            
+          </div>
+        </div>
+      
+    </div>
+    
+  <div id="btn-catalog" class="btn-catalog">
+    <i class="iconfont icon-catalog"></i>
+  </div>
+  <div class="post-catalog hidden" id="catalog">
+    <div class="title">Contents</div>
+    <div class="catalog-content">
+      
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%ED%8C%8C%EC%9D%B4%EC%8D%AC-%EC%8A%AC%EB%9D%BC%EC%9D%B4%EC%8B%B1"><span class="toc-text">파이썬 슬라이싱</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%EC%9D%B8%EB%8D%B1%EC%8A%A4-%EC%8A%AC%EB%9D%BC%EC%9D%B4%EC%8B%B1"><span class="toc-text">인덱스 슬라이싱</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1%EC%B0%A8%EC%9B%90-%EB%B0%B0%EC%97%B4%EC%97%90%EC%84%9C-%EA%B0%9C%EB%B3%84-%EC%9A%94%EC%86%8C-%EC%B6%94%EC%B6%9C%ED%95%98%EA%B8%B0"><span class="toc-text">1차원 배열에서 개별 요소 추출하기</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%EB%92%A4%EC%97%90%EC%84%9C-n%EB%B2%88%EC%A7%B8-%EC%9A%94%EC%86%8C-%EC%B6%94%EC%B6%9C%ED%95%98%EA%B8%B0"><span class="toc-text">뒤에서 n번째 요소 추출하기</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1%EC%B0%A8%EC%9B%90-%EB%B0%B0%EC%97%B4%EC%97%90%EC%84%9C-%EC%97%AC%EB%9F%AC-%EC%9A%94%EC%86%8C-%EC%B6%94%EC%B6%9C%ED%95%98%EA%B8%B0"><span class="toc-text">1차원 배열에서 여러 요소 추출하기</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1%EC%B0%A8%EC%9B%90-%EB%B0%B0%EC%97%B4%EC%97%90%EC%84%9C-n%EB%B2%88%EC%94%A9-%EA%B1%B4%EB%84%88%EB%9D%84%EC%96%B4-%EC%9A%94%EC%86%8C-%EC%B6%94%EC%B6%9C%ED%95%98%EA%B8%B0"><span class="toc-text">1차원 배열에서 n번씩 건너띄어 요소 추출하기</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1%EC%B0%A8%EC%9B%90-%EB%B0%B0%EC%97%B4-%EB%92%A4%EC%A7%91%EA%B8%B0"><span class="toc-text">1차원 배열 뒤집기</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1%EC%B0%A8%EC%9B%90-%EB%B0%B0%EC%97%B4-%EC%99%BC%EC%AA%BD-%EC%98%A4%EB%A5%B8%EC%AA%BD%EC%9C%BC%EB%A1%9C-n%EC%B9%B8%EC%94%A9-%EC%9B%80%EC%A7%81%EC%9D%B4%EA%B8%B0"><span class="toc-text">1차원 배열 왼쪽&#x2F;오른쪽으로 n칸씩 움직이기</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2%EC%B0%A8%EC%9B%90-%EB%B0%B0%EC%97%B4-%EB%8B%A4%EB%A3%A8%EA%B8%B0"><span class="toc-text">2차원 배열 다루기</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%ED%96%89-%EC%B6%9C%EB%A0%A5%ED%95%98%EA%B8%B0"><span class="toc-text">행 출력하기</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#List-comprehension-%EB%B0%A9%EC%8B%9D%EC%9C%BC%EB%A1%9C-%EB%AA%A8%EB%93%A0-%ED%96%89-%EC%B6%9C%EB%A0%A5%ED%95%98%EA%B8%B0"><span class="toc-text">List comprehension 방식으로 모든 행 출력하기</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%EB%B2%88%EC%99%B8-%EB%A6%AC%EC%8A%A4%ED%8A%B8-%EC%95%88%EC%9D%98-%EA%B0%92-%EC%B6%9C%EB%A0%A5%ED%95%98%EA%B8%B0"><span class="toc-text">(번외)리스트 안의 값 출력하기</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%EC%97%B4-%EC%B6%9C%EB%A0%A5%ED%95%98%EA%B8%B0-Transpose-Matrix-%EB%A7%8C%EB%93%A4%EA%B8%B0"><span class="toc-text">열 출력하기( &#x3D;Transpose Matrix 만들기)</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%EA%B2%B0%EB%A1%A0"><span class="toc-text">결론</span></a></li></ol>
+      
+    </div>
+  </div>
+
+  
+<script src="/js/catalog.js"></script>
+
+
+
+
+    
+      <div class="comments-container">
+        
+
+
+
+
+
+
+
+      </div>
+    
+  </div>
+
+
+        
+<div class="footer">
+  <div class="social">
+    <ul>
+      
+        <li>
+          
+              <a title="github" target="_blank" rel="noopener" href="https://github.com/byhankim">
+                <i class="iconfont icon-github"></i>
+              </a>
+              
+        </li>
+        
+    </ul>
+  </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/byhankim">Copyright © 2024 byhankim</a>
+        
+    </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Theme by Oranges | Powered by Hexo</a>
+        
+    </div>
+  
+  
+</div>
+
+      </div>
+
+      <div class="tools-bar">
+        <div class="back-to-top tools-bar-item hidden">
+  <a href="javascript: void(0)">
+    <i class="iconfont icon-chevronup"></i>
+  </a>
+</div>
+
+
+<script src="/js/backtotop.js"></script>
+
+
+
+        
+  <div class="search-icon tools-bar-item" id="search-icon">
+    <a href="javascript: void(0)">
+      <i class="iconfont icon-search"></i>
+    </a>
+  </div>
+
+  <div class="search-overlay hidden">
+    <div class="search-content" tabindex="0">
+      <div class="search-title">
+        <span class="search-icon-input">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-search"></i>
+          </a>
+        </span>
+        
+          <input type="text" class="search-input" id="search-input" placeholder="Search...">
+        
+        <span class="search-close-icon" id="search-close-icon">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-close"></i>
+          </a>
+        </span>
+      </div>
+      <div class="search-result" id="search-result"></div>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    var inputArea = document.querySelector("#search-input")
+    var searchOverlayArea = document.querySelector(".search-overlay")
+
+    inputArea.onclick = function() {
+      getSearchFile()
+      this.onclick = null
+    }
+
+    inputArea.onkeydown = function() {
+      if(event.keyCode == 13)
+        return false
+    }
+
+    function openOrHideSearchContent() {
+      let isHidden = searchOverlayArea.classList.contains('hidden')
+      if (isHidden) {
+        searchOverlayArea.classList.remove('hidden')
+        document.body.classList.add('hidden')
+        // inputArea.focus()
+      } else {
+        searchOverlayArea.classList.add('hidden')
+        document.body.classList.remove('hidden')
+      }
+    }
+
+    function blurSearchContent(e) {
+      if (e.target === searchOverlayArea) {
+        openOrHideSearchContent()
+      }
+    }
+
+    document.querySelector("#search-icon").addEventListener("click", openOrHideSearchContent, false)
+    document.querySelector("#search-close-icon").addEventListener("click", openOrHideSearchContent, false)
+    searchOverlayArea.addEventListener("click", blurSearchContent, false)
+
+    var searchFunc = function (path, search_id, content_id) {
+      'use strict';
+      var $input = document.getElementById(search_id);
+      var $resultContent = document.getElementById(content_id);
+      $resultContent.innerHTML = "<ul><span class='local-search-empty'>First search, index file loading, please wait...<span></ul>";
+      $.ajax({
+        // 0x01. load xml file
+        url: path,
+        dataType: "xml",
+        success: function (xmlResponse) {
+          // 0x02. parse xml file
+          var datas = $("entry", xmlResponse).map(function () {
+            return {
+              title: $("title", this).text(),
+              content: $("content", this).text(),
+              url: $("url", this).text()
+            };
+          }).get();
+          $resultContent.innerHTML = "";
+
+          $input.addEventListener('input', function () {
+            // 0x03. parse query to keywords list
+            var str = '<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length <= 0) {
+              return;
+            }
+            // 0x04. perform local searching
+            datas.forEach(function (data) {
+              var isMatch = true;
+              var content_index = [];
+              if (!data.title || data.title.trim() === '') {
+                data.title = "Untitled";
+              }
+              var orig_data_title = data.title.trim();
+              var data_title = orig_data_title.toLowerCase();
+              var orig_data_content = data.content.trim().replace(/<[^>]+>/g, "");
+              var data_content = orig_data_content.toLowerCase();
+              var data_url = data.url;
+              var index_title = -1;
+              var index_content = -1;
+              var first_occur = -1;
+              // only match artiles with not empty contents
+              if (data_content !== '') {
+                keywords.forEach(function (keyword, i) {
+                  index_title = data_title.indexOf(keyword);
+                  index_content = data_content.indexOf(keyword);
+
+                  if (index_title < 0 && index_content < 0) {
+                    isMatch = false;
+                  } else {
+                    if (index_content < 0) {
+                      index_content = 0;
+                    }
+                    if (i == 0) {
+                      first_occur = index_content;
+                    }
+                    // content_index.push({index_content:index_content, keyword_len:keyword_len});
+                  }
+                });
+              } else {
+                isMatch = false;
+              }
+              // 0x05. show search results
+              if (isMatch) {
+                str += "<li><a href='" + data_url + "' class='search-result-title'>" + orig_data_title + "</a>";
+                var content = orig_data_content;
+                if (first_occur >= 0) {
+                  // cut out 100 characters
+                  var start = first_occur - 20;
+                  var end = first_occur + 80;
+
+                  if (start < 0) {
+                    start = 0;
+                  }
+
+                  if (start == 0) {
+                    end = 100;
+                  }
+
+                  if (end > content.length) {
+                    end = content.length;
+                  }
+
+                  var match_content = content.substr(start, end);
+
+                  // highlight all keywords
+                  keywords.forEach(function (keyword) {
+                    var regS = new RegExp(keyword, "gi");
+                    match_content = match_content.replace(regS, "<span class=\"search-keyword\">" + keyword + "</span>");
+                  });
+
+                  str += "<p class=\"search-result-abstract\">" + match_content + "...</p>"
+                }
+                str += "</li>";
+              }
+            });
+            str += "</ul>";
+            if (str.indexOf('<li>') === -1) {
+              return $resultContent.innerHTML = "<ul><span class='local-search-empty'>No result<span></ul>";
+            }
+            $resultContent.innerHTML = str;
+          });
+        },
+        error: function(xhr, status, error) {
+          $resultContent.innerHTML = ""
+          if (xhr.status === 404) {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>The search.xml file was not found, please refer to：<a href='https://github.com/zchengsite/hexo-theme-oranges#configuration' target='_black'>configuration</a><span></ul>";
+          } else {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>The request failed, Try to refresh the page or try again later.<span></ul>";
+          }
+        }
+      });
+      $(document).on('click', '#search-close-icon', function() {
+        $('#search-input').val('');
+        $('#search-result').html('');
+      });
+    }
+
+    var getSearchFile = function() {
+        var path = "/search.xml";
+        searchFunc(path, 'search-input', 'search-result');
+    }
+  </script>
+
+
+
+
+        
+  <div class="tools-bar-item theme-icon" id="switch-color-scheme">
+    <a href="javascript: void(0)">
+      <i id="theme-icon" class="iconfont icon-moon"></i>
+    </a>
+  </div>
+
+  
+<script src="/js/colorscheme.js"></script>
+
+
+
+
+
+        
+  
+    <div class="share-icon tools-bar-item">
+      <a href="javascript: void(0)" id="share-icon">
+        <i class="iconfont iconshare"></i>
+      </a>
+      <div class="share-content hidden">
+        
+          <a class="share-item" href="https://twitter.com/intent/tweet?text=' + %ED%8C%8C%EC%9D%B4%EC%8D%AC%20%EC%9D%B8%EB%8D%B1%EC%8A%A4%20%EB%8B%A4%EB%A3%A8%EA%B8%B0%20ft.%20%EC%BD%94%EB%94%A9%20%ED%85%8C%EC%8A%A4%ED%8A%B8 + '&url=' + https%3A%2F%2Fbyhankim.github.io%2F2024%2F03%2F28%2Fpython-prep%2F + '" target="_blank" title="Twitter">
+            <i class="iconfont icon-twitter"></i>
+          </a>
+        
+        
+          <a class="share-item" href="https://www.facebook.com/sharer.php?u=https://byhankim.github.io/2024/03/28/python-prep/" target="_blank" title="Facebook">
+            <i class="iconfont icon-facebooksquare"></i>
+          </a>
+        
+      </div>
+    </div>
+  
+  
+<script src="/js/shares.js"></script>
+
+
+
+      </div>
+    </div>
+  </body>
+</html>
