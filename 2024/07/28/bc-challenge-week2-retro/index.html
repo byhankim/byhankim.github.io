@@ -13,7 +13,7 @@
   
   <title>
     
-      Archives 
+      부스트캠프 웹모바일 챌린지 2주차 회고 
       
       
       |
@@ -104,131 +104,174 @@
 
 
       <div class="flex-container">
-        <!-- 归档页，展示本站所有文章，按照年份降序归类，url形式：https://yoursite/archives/ -->
+        <!-- 文章详情页，展示文章具体内容，url形式：https://yoursite/文章标题/ -->
+<!-- 同时为「标签tag」，「朋友friend」，「分类categories」，「关于about」页面的承载页面，具体展示取决于page.type -->
 
-<!-- last: 按年份把文章分组，当前遍历到的年份 -->
-<!-- now: 当前遍历到的文章的发布年份 -->
 
-<div class="container archives">
-  <div class="post-list">
-    
-        <!-- 后续文章的发布年份呈现 -->
-        <div class="content-title">
-          <h2>
-            <span>2024</span>
-          </h2>
+  <!-- LaTex Display -->
+
+  
+    <script async type="text/javascript" src="/plugins/mathjax/tex-chtml.js"></script>
+  
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      }
+    }
+  </script>
+
+
+
+
+
+  <!-- clipboard -->
+
+  
+    <script async type="text/javascript" src="/plugins/clipboard.min.js"></script>
+  
+  
+<script src="/js/codeCopy.js"></script>
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  <!-- 文章内容页 url形式：https://yoursite/文章标题/ -->
+  <div class="container post-details" id="post-details">
+    <div class="post-content">
+      <div class="post-title">부스트캠프 웹모바일 챌린지 2주차 회고</div>
+      <div class="post-attach">
+        <span class="post-pubtime">
+          <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
+          2024-07-28 23:55:18
+        </span>
+        
+              <span class="post-tags">
+                <i class="iconfont icon-tags mr-10" title="Tags"></i>
+                
+                <span class="span--tag mr-8">
+                  <a href="/tags/boostcamp/" title="boostcamp">
+                    #boostcamp
+                  </a>
+                </span>
+                
+              </span>
+          
+      </div>
+      <div class="markdown-body">
+        <h3 id="챌린지를-시작하며-했던-다짐"><a href="#챌린지를-시작하며-했던-다짐" class="headerlink" title="챌린지를 시작하며 했던 다짐"></a>챌린지를 시작하며 했던 다짐</h3><blockquote>
+<p>하나라도 더 구현하기 보단, 하나라도 더 학습하고 나에게 남기는 것을 목적으로 하자</p>
+</blockquote>
+<p>이번주는 어떻게 보면 미션 구현도 &lt; 학습이라는 모토에 충실했다고 볼 수 있다. 비록 둘 다 크기 자체는 작지만…</p>
+<hr>
+<p><strong>만족한점</strong></p>
+<ul>
+<li>다들 갓생&amp;열공하신 분들이라 기술적 측면에서 배울것이 매우 많았다.</li>
+<li>특히 지식적, 개발마인드 양면으로 본받고 싶은 부분이 많았다.</li>
+<li>작은 부분이라도 원리를 알고 꼭 코드로 직접 짜보며 이해함으로서 빠르게 성장한다는 것을 배웠다.</li>
+<li>명세대로 꼼꼼히 구현하되, 실제 시나리오와 대응하여 더욱더 깊이 있게 코드 짜는 것의 중요성을 배웠다.</li>
+<li>피드백 방식, 역할 분리, 컨벤션 확립등 수준 높은 동료 캠퍼들로부터 많은 무형의 교훈을 받았다.</li>
+</ul>
+<p><strong>나의 고질적인 문제</strong></p>
+<ol>
+<li>검색을 죽어도 안하려고 한다. 무조건 내가 생각해내야만 맞는 걸로 생각한다</li>
+<li>집중을 죽어도 안한다. 자꾸만 딴 길로 샌다.</li>
+<li>의자에 앉아도 집중하기까지 너무 오래 걸려서 얼마나 오래 앉아있든 의미가 없다.</li>
+<li>자꾸만 나중에 하면 되겠지 라는 생각에 빠져 학습을 기피한다.</li>
+<li>분할정복을 외치면서 자꾸만 한 번에 모든 것을 끝내려고 욕심을 부린다.</li>
+<li>책이나 참고자료를 바로 안 보고 꼭 나중에 봐야지 하고 쟁여놓고 안 본다</li>
+</ol>
+<p>그리고 발전방향을 동료 캠퍼들의 장점에서 따오고 슬랙에서 따와 정립할 수 있었다.</p>
+<p><strong>어떻게 발전할 수 있을까</strong></p>
+<ol>
+<li>조금만 고민하자. 예를 들어 총 3가지의 방안을 생각해보고 적용했는데도 안 된다면 지체 없이 검색하자.</li>
+<li>미션공개시 다 때려치고 요구사항 정독하고 빠르고 간결하게정리해보자.</li>
+<li>25-5 뽀모도로 실천하고, 한 시간에 한 번은 눈 쉬는 시간을 갖자.</li>
+<li>자료, 책, 토픽 보면 그 자리에서 해결을 보자.</li>
+<li>그리고 학습 정리에 시간을 더 쓰자.</li>
+<li>CS 토픽방에서 나오는 토픽들 시간 있을때 조금씩 봐두고 정리해두자.</li>
+<li>지난 미션들에 관한 CS 토픽들도 정리하자. 할 수 있을 때 해야 한다. 나중은 없다.</li>
+</ol>
+<p>솔직히 이번주 활동이 만족스럽진 않았다. 1주차에서 몸을 갈아가며 미션을 수행하다보니 전반적으로 체력적 한계가 찾아온 것 같고, 이는 곧 퍼포먼스의 저하로 이어져 한 주 내내 영향을 끼쳤다.그럼에도 포기하거나 설렁설렁 하겠다고 생각하지 않는 이유는 심신의 저점에서 동료 캠퍼들로부터 응원과격려를 받았고, 그들로부터 많은 것을 배울 수 있었기 때문이다. 다시 한 번 모르면 채우면 된다, 모른다는 것은 배울 게 남아있다는 것이다 라는 마음가짐을 다지게 되었고, 챌린지가 끝난 뒤 많은 성장을 이루었기를 바란다.<br>남은 절반을 처음보다 더 절실하고 치열하게 보내야겠다.</p>
+
+      </div>
+      
+        <div class="prev-or-next">
+          <div class="post-foot-next">
+            
+              <a href="/2024/07/21/240721-bc-challenge-week1-revision/" target="_self">
+                <i class="iconfont icon-chevronleft"></i>
+                <span>Prev</span>
+              </a>
+            
+          </div>
+          <div class="post-attach">
+            <span class="post-pubtime">
+              <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
+              2024-07-28 23:55:18
+            </span>
+            
+                  <span class="post-tags">
+                    <i class="iconfont icon-tags mr-10" title="Tags"></i>
+                    
+                    <span class="span--tag mr-8">
+                      <a href="/tags/boostcamp/" title="boostcamp">
+                        #boostcamp
+                      </a>
+                    </span>
+                    
+                  </span>
+              
+          </div>
+          <div class="post-foot-prev">
+            
+          </div>
         </div>
       
-      <div class="post-item" title="부스트캠프 웹모바일 챌린지 2주차 회고">
-        <div class="time-m-d">07-28</div>
-        <div class="title">
-          <a href="/2024/07/28/bc-challenge-week2-retro/">
-            <span>부스트캠프 웹모바일 챌린지 2주차 회고</span>
-          </a>
-        </div>
-      </div>
+    </div>
     
-      <div class="post-item" title="부스트캠프 웹모바일 챌린지 첫주차 회고">
-        <div class="time-m-d">07-21</div>
-        <div class="title">
-          <a href="/2024/07/21/240721-bc-challenge-week1-revision/">
-            <span>부스트캠프 웹모바일 챌린지 첫주차 회고</span>
-          </a>
-        </div>
-      </div>
+  <div id="btn-catalog" class="btn-catalog">
+    <i class="iconfont icon-catalog"></i>
+  </div>
+  <div class="post-catalog hidden" id="catalog">
+    <div class="title">Contents</div>
+    <div class="catalog-content">
+      
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%EC%B1%8C%EB%A6%B0%EC%A7%80%EB%A5%BC-%EC%8B%9C%EC%9E%91%ED%95%98%EB%A9%B0-%ED%96%88%EB%8D%98-%EB%8B%A4%EC%A7%90"><span class="toc-text">챌린지를 시작하며 했던 다짐</span></a></li></ol>
+      
+    </div>
+  </div>
+
+  
+<script src="/js/catalog.js"></script>
+
+
+
+
     
-      <div class="post-item" title="부스트캠프 웹모바일 베이직 후기">
-        <div class="time-m-d">07-12</div>
-        <div class="title">
-          <a href="/2024/07/12/20240712-booscamp-recall/">
-            <span>부스트캠프 웹모바일 베이직 후기</span>
-          </a>
-        </div>
-      </div>
-    
-      <div class="post-item" title="부스트캠프 베이직을 시작하며">
-        <div class="time-m-d">06-25</div>
-        <div class="title">
-          <a href="/2024/06/25/240624-boostcamp-basic/">
-            <span>부스트캠프 베이직을 시작하며</span>
-          </a>
-        </div>
-      </div>
-    
-      <div class="post-item" title="파이썬 인덱스 다루기 ft. 코딩 테스트">
-        <div class="time-m-d">03-28</div>
-        <div class="title">
-          <a href="/2024/03/28/python-prep/">
-            <span>파이썬 인덱스 다루기 ft. 코딩 테스트</span>
-          </a>
-        </div>
-      </div>
-    
-      <div class="post-item" title="(경)프로그래머스 기초 문제 올클(축)">
-        <div class="time-m-d">03-26</div>
-        <div class="title">
-          <a href="/2024/03/26/yey/">
-            <span>(경)프로그래머스 기초 문제 올클(축)</span>
-          </a>
-        </div>
-      </div>
-    
-      <div class="post-item" title="원활한 코딩테스트를 위해 공부해볼만한 토픽들 ft.ChatGPT">
-        <div class="time-m-d">03-25</div>
-        <div class="title">
-          <a href="/2024/03/25/algo-topics/">
-            <span>원활한 코딩테스트를 위해 공부해볼만한 토픽들 ft.ChatGPT</span>
-          </a>
-        </div>
-      </div>
-    
-      <div class="post-item" title="240322 TIL">
-        <div class="time-m-d">03-22</div>
-        <div class="title">
-          <a href="/2024/03/22/til-240322/">
-            <span>240322 TIL</span>
-          </a>
-        </div>
-      </div>
-    
-      <div class="post-item" title="240321 TIL">
-        <div class="time-m-d">03-21</div>
-        <div class="title">
-          <a href="/2024/03/21/til-240321/">
-            <span>240321 TIL</span>
-          </a>
-        </div>
-      </div>
-    
-      <div class="post-item" title="240318 TIL">
-        <div class="time-m-d">03-18</div>
-        <div class="title">
-          <a href="/2024/03/18/til-240318/">
-            <span>240318 TIL</span>
-          </a>
-        </div>
-      </div>
-    
-      <div class="post-item" title="Hexo, Github Pages, 거진 성공적">
-        <div class="time-m-d">03-12</div>
-        <div class="title">
-          <a href="/2024/03/12/github-pages/">
-            <span>Hexo, Github Pages, 거진 성공적</span>
-          </a>
-        </div>
-      </div>
-    
-      <div class="post-item" title="macOS 에서 유무선 인터넷 사용 여부 확인하기">
-        <div class="time-m-d">03-11</div>
-        <div class="title">
-          <a href="/2024/03/11/network/">
-            <span>macOS 에서 유무선 인터넷 사용 여부 확인하기</span>
-          </a>
-        </div>
+      <div class="comments-container">
+        
+
+
+
+
+
+
+
       </div>
     
   </div>
-</div>
+
 
         
 <div class="footer">
@@ -485,6 +528,24 @@
 
 
         
+  
+    <div class="share-icon tools-bar-item">
+      <a href="javascript: void(0)" id="share-icon">
+        <i class="iconfont iconshare"></i>
+      </a>
+      <div class="share-content hidden">
+        
+          <a class="share-item" href="https://twitter.com/intent/tweet?text=' + %EB%B6%80%EC%8A%A4%ED%8A%B8%EC%BA%A0%ED%94%84%20%EC%9B%B9%EB%AA%A8%EB%B0%94%EC%9D%BC%20%EC%B1%8C%EB%A6%B0%EC%A7%80%202%EC%A3%BC%EC%B0%A8%20%ED%9A%8C%EA%B3%A0 + '&url=' + https%3A%2F%2Fbyhankim.github.io%2F2024%2F07%2F28%2Fbc-challenge-week2-retro%2F + '" target="_blank" title="Twitter">
+            <i class="iconfont icon-twitter"></i>
+          </a>
+        
+        
+          <a class="share-item" href="https://www.facebook.com/sharer.php?u=https://byhankim.github.io/2024/07/28/bc-challenge-week2-retro/" target="_blank" title="Facebook">
+            <i class="iconfont icon-facebooksquare"></i>
+          </a>
+        
+      </div>
+    </div>
   
   
 <script src="/js/shares.js"></script>
