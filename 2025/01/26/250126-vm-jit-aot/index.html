@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en" color-mode="light">
+
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="author" content="byhankim" />
+  <!-- Open Graph Description 简短摘要-->
+  
+  <!-- 用于搜索引擎的文章摘要 -->
+  
+  
+  
+  <title>
+    
+      VM과 JIT/AOT 컴파일 - 생각해본 적 없는 문제들 
+      
+      
+      |
+    
+     dev-o-rama
+  </title>
+
+  
+    <link rel="apple-touch-icon" href="/images/bird_favicon_resize.png">
+    <link rel="icon" href="/images/bird_favicon_resize.png">
+  
+
+  <!-- Raleway-Font -->
+  <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
+
+  <!-- hexo site css -->
+  <link rel="stylesheet" href="/css/main.css" />
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
+  <!-- 代码块风格 -->
+  
+
+  <!-- jquery3.3.1 -->
+  
+    <script defer type="text/javascript" src="/plugins/jquery.min.js"></script>
+  
+
+  <!-- fancybox -->
+  
+    <link href="/plugins/jquery.fancybox.min.css" rel="stylesheet">
+    <script defer type="text/javascript" src="/plugins/jquery.fancybox.min.js"></script>
+  
+  
+<script src="/js/fancybox.js"></script>
+
+
+  
+
+  
+
+  <script>
+    var html = document.documentElement
+    const colorMode = localStorage.getItem('color-mode')
+    if (colorMode) {
+      document.documentElement.setAttribute('color-mode', colorMode)
+    }
+  </script>
+<meta name="generator" content="Hexo 7.1.1"></head>
+
+
+  <body>
+    <div id="app">
+      <div class="header">
+  <div class="avatar">
+    <a href="/">
+      <!-- 头像取消懒加载，添加no-lazy -->
+      
+        <img src="/images/bird_icon.png" alt="">
+      
+    </a>
+    <div class="nickname"><a href="/">dev-o-rama</a></div>
+  </div>
+  <div class="navbar">
+    <ul>
+      
+        <li class="nav-item" data-path="/">
+          <a href="/">Home</a>
+        </li>
+      
+        <li class="nav-item" data-path="/archives/">
+          <a href="/archives/">Archives</a>
+        </li>
+      
+        <li class="nav-item" data-path="/tags/">
+          <a href="/tags/">Tags</a>
+        </li>
+      
+        <li class="nav-item" data-path="/about/">
+          <a href="/about/">About</a>
+        </li>
+      
+    </ul>
+  </div>
+</div>
+
+
+<script src="/js/activeNav.js"></script>
+
+
+
+      <div class="flex-container">
+        <!-- 文章详情页，展示文章具体内容，url形式：https://yoursite/文章标题/ -->
+<!-- 同时为「标签tag」，「朋友friend」，「分类categories」，「关于about」页面的承载页面，具体展示取决于page.type -->
+
+
+  <!-- LaTex Display -->
+
+  
+    <script async type="text/javascript" src="/plugins/mathjax/tex-chtml.js"></script>
+  
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      }
+    }
+  </script>
+
+
+
+
+
+  <!-- clipboard -->
+
+  
+    <script async type="text/javascript" src="/plugins/clipboard.min.js"></script>
+  
+  
+<script src="/js/codeCopy.js"></script>
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  <!-- 文章内容页 url形式：https://yoursite/文章标题/ -->
+  <div class="container post-details" id="post-details">
+    <div class="post-content">
+      <div class="post-title">VM과 JIT/AOT 컴파일 - 생각해본 적 없는 문제들</div>
+      <div class="post-attach">
+        <span class="post-pubtime">
+          <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
+          2025-01-26 12:47:55
+        </span>
+        
+              <span class="post-tags">
+                <i class="iconfont icon-tags mr-10" title="Tags"></i>
+                
+                <span class="span--tag mr-8">
+                  <a href="/tags/compilers/" title="compilers">
+                    #compilers
+                  </a>
+                </span>
+                
+              </span>
+          
+      </div>
+      <div class="markdown-body">
+        <p>플러터 책을 공수하여 개발 환경 구성을 마치고 난 뒤 1장에서 바로 막혀버린 부분이 있었다.<br>바로 <code>Dart 는 AOT 컴파일이 가능하여 어떤 플랫폼에서도 빠른 속도를 낸다</code> 라는 부분이었다. 뒤이어 다트 언어의 크로스 플랫폼이 개발, 배포할 때 어떻게 이루어지는지 간단한 소개가 나왔는데, 네이티브 플랫폼에서 개발시 <code>JIT + VM</code>, 배포시 <code>AOT + 런타임</code> 방식으로 진행한다고 했다. 긴 문단에 걸쳐 설명이 되어있었으나, 개인적으로 도저히 이해가 되지 않는 것들이 많았다.<br>예를 들어, 모든 학습 자료에서 “바이트코드는 플랫폼 중립적이다” 라는 설명을 볼 수 있는데, 굳이 따지면 자바, 플러터, 다트 원본 소스 코드 자체도 중립적이라고 부를 수 있지 않나 라는 궁금증이 자꾸만 일어났다. 그리고 그렇다 치면 왜 바이트코드로 변환하여 한 단계를 거치느니 마찬가지로 ‘중립적인’ 원본 코드를 각 플랫폼에 맞게 만든 VM 에서 처리하면 왜 안되는 것인지, 등 궁금증이 끝도 없이 몰려와 나름대로 공부한 내용을 나만의 언어로 풀어 정리해 보았다.</p>
+<h4 id="Q-VM계열-언어에서-JIT-AOT-컴파일-방식이-정확히-무슨-뜻인가"><a href="#Q-VM계열-언어에서-JIT-AOT-컴파일-방식이-정확히-무슨-뜻인가" class="headerlink" title="Q. VM계열 언어에서 JIT&#x2F;AOT 컴파일 방식이 정확히 무슨 뜻인가?"></a>Q. VM계열 언어에서 JIT&#x2F;AOT 컴파일 방식이 정확히 무슨 뜻인가?</h4><p>JIT Compile: Just-In-Time 컴파일로, 원 언어에서 컴파일 된 바이트코드를 실행할 때 런타임 환경에서 해당 시스템 및 아키텍처에 최적화된 기계어(machine code) 로 변환하고 최종적으로 CPU 에서 기계어 명령을 수행하는 방식을 뜻한다. 이 과정에서 VM은 바이트코드를 실행하기 위한 런타임 환경을 제공하며, 특정 ‘핫스팟’(자주 사용되는 코드 섹션)의 바이트코드를 최적화된 기계어로 컴파일해 CPU에서 실행한다. 또한 VM은 메모리 관리 및 가비지 컬렉션을 포함한 전반적인 기능을 제공한다.</p>
+<p>AOT Compile: Ahead-Of-Time 컴파일 방식으로 크게 두 가지로 나뉜다</p>
+<ol>
+<li>C&#x2F;C++ 계열 언어에서의 AOT 컴파일: 원본 소스 코드를 기계어로 직접 컴파일하여 실행 가능한 바이너리 파일을 생성한다. 실행 시점에는 별도의 VM이나 런타임이 필요하지 않다. 다만 개발자가 각 플랫폼에 맞는 빌드를 개별적으로 생성해야 한다.</li>
+<li>VM 계열 언어에서의 AOT 컴파일: 먼저 컴파일 시점에 소스코드를 바이트코드로 변환하는 단계를 거친 뒤 바이트코드를 각 플랫폼에 알맞는 기계어로 컴파일하는 방식이다. JIT 컴파일에서 바이트코드 -&gt; 기계어 변환이 런타임에 진행되는 것과 달리, AOT 방식은 프로그램 실행 전 개발자가 릴리즈용 앱을 빌드할 때(다트&#x2F;플러터) 혹은 최종 사용자가 앱을 마켓에서 내려받아 설치할 때(안드로이드의 ART가 apk 파일 내부에 바이트코드로 이루어진 dex 파일들을 시스템&#x2F;아키텍처에 알맞은 기계어로 변환한다) 기계어로 미리 변환한다. AOT 컴파일의 경우 실행시 VM이 필요하지 않지만 런타임(실행시 메모리 관리, 가비지 콜렉션, 기타 리소스 및 기능 지원 등을 위해 존재하는 통합 실행 환경)을 필요로 한다.</li>
+</ol>
+<h4 id="Q-VM-계열언어의-AOT-컴파일-방식에-굳이-원본-바이트코드-기계어-단계를-거치는-이유는"><a href="#Q-VM-계열언어의-AOT-컴파일-방식에-굳이-원본-바이트코드-기계어-단계를-거치는-이유는" class="headerlink" title="Q. VM 계열언어의 AOT 컴파일 방식에 굳이 원본-&gt;바이트코드-&gt;기계어 단계를 거치는 이유는?"></a>Q. VM 계열언어의 AOT 컴파일 방식에 굳이 원본-&gt;바이트코드-&gt;기계어 단계를 거치는 이유는?</h4><p><strong>그냥 C++ 처럼 바로 원본 소스-&gt; 기계어로 바꿔주면 안 되는 건가? 그리고 vm based 언어에서 최종 결과물이 기계어라면 결국은 타겟 시스템&#x2F;아키텍처에 맞게 개별적으로 프로그램을 제작해야 할텐데, WORA 철학에 위배되는 건 아닌가?</strong></p>
+<p>A. 개발자가 릴리즈용 앱&#x2F;프로그램을 빌드할 때 (다트&#x2F;플러터) 기계어로 변환된다. 안드로이드는 플레이 스토어에서 앱을 내려받고 설치할 때 컴파일이 진행된다. iOS는 빌드 단계에서 플러터처럼 네이티브 기계어로 변환되어 설치된다.</p>
+<h4 id="Q-JIT-VM-AOT-runtime-런타임은-bytecode-로-작성된-프로그램을-실행할-때-필요한-여러-네이티브-라이브러리-가비지-콜렉션-기타-리소스-관리-등의-역할을-맡는-일종의-매니저-요소"><a href="#Q-JIT-VM-AOT-runtime-런타임은-bytecode-로-작성된-프로그램을-실행할-때-필요한-여러-네이티브-라이브러리-가비지-콜렉션-기타-리소스-관리-등의-역할을-맡는-일종의-매니저-요소" class="headerlink" title="Q. JIT+VM, AOT+runtime? 런타임은 bytecode 로 작성된 프로그램을 실행할 때 필요한 여러 네이티브 라이브러리, 가비지 콜렉션, 기타 리소스 관리 등의 역할을 맡는 일종의 매니저 요소?"></a>Q. JIT+VM, AOT+runtime? 런타임은 bytecode 로 작성된 프로그램을 실행할 때 필요한 여러 네이티브 라이브러리, 가비지 콜렉션, 기타 리소스 관리 등의 역할을 맡는 일종의 매니저 요소?</h4><p>자바 언어는 JIT(Just In Time) 컴파일만을 지원하는 데 반해, jvm 계열 여러 언어들(클로저, 코틀린 등)이나 다트와 같은 VM 계열 언어들은 AOT(Ahead of Time) 컴파일 또한 지원하여 최종 결과물 앱을 실행시 bytecode 를 그때 그때 처리하는 VM이 필요 없다. AOT 컴파일 방식은 모든 소스 코드를 bytecode 가 아닌 머신 코드로 변환하기 때문에 vm이 필요치 않으며, 다만 언어 자체의 관리를 위해 런타임이 필요하다.</p>
+<h4 id="Q-자바가-bytecode-를-통해-WORA-Write-Once-Run-Anywhere-개념을-적용했다고-하는데-어차피-개발자나-최종-사용자는-VM-runtime-등을-신경쓸-필요가-없는데-왜-굳이-자바-소스-코드가-아닌-바이트코드가-필요한-건데"><a href="#Q-자바가-bytecode-를-통해-WORA-Write-Once-Run-Anywhere-개념을-적용했다고-하는데-어차피-개발자나-최종-사용자는-VM-runtime-등을-신경쓸-필요가-없는데-왜-굳이-자바-소스-코드가-아닌-바이트코드가-필요한-건데" class="headerlink" title="Q. 자바가 bytecode 를 통해 WORA(Write Once, Run Anywhere) 개념을 적용했다고 하는데, 어차피 개발자나 최종 사용자는 VM, runtime 등을 신경쓸 필요가 없는데 왜 굳이 자바 소스 코드가 아닌 바이트코드가 필요한 건데?"></a>Q. 자바가 bytecode 를 통해 WORA(Write Once, Run Anywhere) 개념을 적용했다고 하는데, 어차피 개발자나 최종 사용자는 VM, runtime 등을 신경쓸 필요가 없는데 왜 굳이 자바 소스 코드가 아닌 바이트코드가 필요한 건데?</h4><p><strong>어차피 언어 제작사에서 각 아키텍처, 시스템에 맞춘 vm 이니 런타임이니 이런것들을 다 책임져주지 않은가? 그렇다면 바이트코드나 raw source code나 무슨 차이이며, 굳이 바이트코드로 단계를 하나 추가하면서까지 vm 을 껴서 프로그램을 개발하는 이유는?</strong></p>
+<p>우선, 자바와 같은 추상적 개념, 고차원 개념(oop, 함수, 클래스, loops, etc) 이 저수준 차원에서 해석하고 실행하기 위해 컴퓨터 연산이 상당히 소모된다. 바이트코드는 약간 더럽지만 우리가 밥을 먹고 나서 반쯤 소화된 결과물로 비유할 수 있으며, 생 음식을 장에서 흡수하는 것과 중간 단계에서 소화된 것에서 영양분을 흡수하는 것의 효율 차이가 난다. 바이트코드를 사용하지 않는다면 매번 모든 시스템에서 고차원적인 기능 해석을 지원하는 코드를 언어 제작사들이 지원해야 할 뿐 아니라, 최종 사용자가 raw source code가 들어있는 실행 파일을 실행할 때 vm 이(바이트코드가 아니라 언어 자체를 해석한다고 할 때) 그 사용자의 디바이스가 매번 고수준 언어를 해석하게 된다면 사용자 입장에서도 훨씬 느린 프로그램을 사용하기 싫을 것이다. java 소스 코드던 바이트코드던 둘 다 ‘플랫폼 중립적’이며 모든 vm이 해석할 순 있다. 다만 바이트코드는 자바 혹은 jvm 계열 언어의 수많은 고차원 기능들을 최대한 단순화 하여 표준에 맞게 소화해 놓은 것이므로 실행하는 기기&#x2F;사람 입장에서도 원본 소스코드에 비해 훨씬 더 빠르고 효율적으로 소프트웨어를 실행할 수 있다는 이점을 갖는다. 언어 제조사에서도 모든 고차원 기능을 지원하기 위해 땀을 뻘뻘 흘리는 것보다 중간 단계인 바이트코드를 지원하는게 훨씬 더 본인들 입장에서도 편할 것이다.</p>
+<h4 id="Q-아니-그럼-바이트코드를-안-쓴다고-쳤을때-C-같은-언어들과-비교해서-이점이-뭐야-바이트코드-안-쓰면-중간-단계-거칠일이-없으니-C-급-퍼포먼스가-나와야-되는거-아니야"><a href="#Q-아니-그럼-바이트코드를-안-쓴다고-쳤을때-C-같은-언어들과-비교해서-이점이-뭐야-바이트코드-안-쓰면-중간-단계-거칠일이-없으니-C-급-퍼포먼스가-나와야-되는거-아니야" class="headerlink" title="Q. 아니 그럼, 바이트코드를 안 쓴다고 쳤을때 C++ 같은 언어들과 비교해서 이점이 뭐야? 바이트코드 안 쓰면 중간 단계 거칠일이 없으니 C++ 급 퍼포먼스가 나와야 되는거 아니야?"></a>Q. 아니 그럼, 바이트코드를 안 쓴다고 쳤을때 C++ 같은 언어들과 비교해서 이점이 뭐야? 바이트코드 안 쓰면 중간 단계 거칠일이 없으니 C++ 급 퍼포먼스가 나와야 되는거 아니야?</h4><p>C&#x2F;C++ 같은 언어들은 메모리와 같은 하드웨어 리소스를 직접 수동으로 관리하므로 개발자의 실수가 없다면 당연히 별도 리소스 관리가 필요한 VM 계열 언어보다 높은 퍼포먼스를 가질 수 밖에 없다. 반면, 바이트코드 기반 언어들은 개발자가 직접 메모리를 관리하지 않고 VM 이나 런타임(프로그램 실행 시점, 혹은 프로그램 실행시 vm 처럼 바이트코드를 한줄한줄 해석해주거나 미리 AOT 컴파일 된 머신 코드일지라도 가비지 컬렉션, 메모리 관리 등 프로그램의 정상적인 실행을 위해 필요한 모든 것들이 모인 환경) 환경이 리소스 관리를 해주므로 개발자가 직접 복잡한 메모리 관리를 할 필요가 없고 안정성 측면에서도 높아진다.</p>
+<h4 id="Q-보통-바이트코드-계열-언어는-VM이-가비지-콜렉션을-담당한다고-배우는데-갑자기-AOT-컴파일은-실행시-VM을-사용하지-않는다는-게-무슨-말이야-그럼-GC-은-누가-해"><a href="#Q-보통-바이트코드-계열-언어는-VM이-가비지-콜렉션을-담당한다고-배우는데-갑자기-AOT-컴파일은-실행시-VM을-사용하지-않는다는-게-무슨-말이야-그럼-GC-은-누가-해" class="headerlink" title="Q. 보통 바이트코드 계열 언어는 VM이 가비지 콜렉션을 담당한다고 배우는데, 갑자기 AOT 컴파일은 실행시 VM을 사용하지 않는다는 게 무슨 말이야? 그럼 GC 은 누가 해?"></a>Q. 보통 바이트코드 계열 언어는 VM이 가비지 콜렉션을 담당한다고 배우는데, 갑자기 AOT 컴파일은 실행시 VM을 사용하지 않는다는 게 무슨 말이야? 그럼 GC 은 누가 해?</h4><p>정확히 말하면 VM 은 실행시 자신을 필요로 하는 언어들(다트, 자바, 코틀린) 의 컴파일 결과물인 바이트코드가 실행될 때 런타임에서 인터프리터 역할을 하여 바이트코드 -&gt; 기계어 컴파일 없이 직접적으로 cpu 에 머신 레벨 instruction 을 던져주는 역할을 하거나, 바이트코드를 한줄 한줄 기계어 로 번역한 결과물을 최적화하거나 메모리에 저장하는 JIT Compiler 로서의 역할을 수행한다.</p>
+<p>VM 은 바이트코드로 제작된 프로그램 실행을 도맡으며 메모리 관리와도 깊게 관련되어 있으므로 가비지 콜렉터로서의 역할 또한 수행한다. (GC가 VM일부 요소) 그런데 AOT 컴파일 방식으로 된 프로그램은 실행시 VM을 필요로 하지 않는데 GC를 사용할 수 있는 이유는 런타임 라이브러리 또한 GC 역할을 하는 구현체를 포함하고 있기 때문이다.</p>
+<p>VM이 동작하는 경우 자체적으로 바이트코드를 실행함과 동시에 GC 역할 또한 수행한다.<br>VM을 사용하지 않는 경우(AOT) 실행 플랫폼 자체적인 런타임 환경에서 GC 구현체 라이브러리를 지원한다. 플러터 릴리즈 빌드 파일을 실행하는 경우가 이에 속한다.</p>
+
+      </div>
+      
+        <div class="prev-or-next">
+          <div class="post-foot-next">
+            
+              <a href="/2024/08/30/adb/" target="_self">
+                <i class="iconfont icon-chevronleft"></i>
+                <span>Prev</span>
+              </a>
+            
+          </div>
+          <div class="post-attach">
+            <span class="post-pubtime">
+              <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
+              2025-01-26 12:47:55
+            </span>
+            
+                  <span class="post-tags">
+                    <i class="iconfont icon-tags mr-10" title="Tags"></i>
+                    
+                    <span class="span--tag mr-8">
+                      <a href="/tags/compilers/" title="compilers">
+                        #compilers
+                      </a>
+                    </span>
+                    
+                  </span>
+              
+          </div>
+          <div class="post-foot-prev">
+            
+          </div>
+        </div>
+      
+    </div>
+    
+  <div id="btn-catalog" class="btn-catalog">
+    <i class="iconfont icon-catalog"></i>
+  </div>
+  <div class="post-catalog hidden" id="catalog">
+    <div class="title">Contents</div>
+    <div class="catalog-content">
+      
+        <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#Q-VM%EA%B3%84%EC%97%B4-%EC%96%B8%EC%96%B4%EC%97%90%EC%84%9C-JIT-AOT-%EC%BB%B4%ED%8C%8C%EC%9D%BC-%EB%B0%A9%EC%8B%9D%EC%9D%B4-%EC%A0%95%ED%99%95%ED%9E%88-%EB%AC%B4%EC%8A%A8-%EB%9C%BB%EC%9D%B8%EA%B0%80"><span class="toc-text">Q. VM계열 언어에서 JIT&#x2F;AOT 컴파일 방식이 정확히 무슨 뜻인가?</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Q-VM-%EA%B3%84%EC%97%B4%EC%96%B8%EC%96%B4%EC%9D%98-AOT-%EC%BB%B4%ED%8C%8C%EC%9D%BC-%EB%B0%A9%EC%8B%9D%EC%97%90-%EA%B5%B3%EC%9D%B4-%EC%9B%90%EB%B3%B8-%EB%B0%94%EC%9D%B4%ED%8A%B8%EC%BD%94%EB%93%9C-%EA%B8%B0%EA%B3%84%EC%96%B4-%EB%8B%A8%EA%B3%84%EB%A5%BC-%EA%B1%B0%EC%B9%98%EB%8A%94-%EC%9D%B4%EC%9C%A0%EB%8A%94"><span class="toc-text">Q. VM 계열언어의 AOT 컴파일 방식에 굳이 원본-&gt;바이트코드-&gt;기계어 단계를 거치는 이유는?</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Q-JIT-VM-AOT-runtime-%EB%9F%B0%ED%83%80%EC%9E%84%EC%9D%80-bytecode-%EB%A1%9C-%EC%9E%91%EC%84%B1%EB%90%9C-%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%A8%EC%9D%84-%EC%8B%A4%ED%96%89%ED%95%A0-%EB%95%8C-%ED%95%84%EC%9A%94%ED%95%9C-%EC%97%AC%EB%9F%AC-%EB%84%A4%EC%9D%B4%ED%8B%B0%EB%B8%8C-%EB%9D%BC%EC%9D%B4%EB%B8%8C%EB%9F%AC%EB%A6%AC-%EA%B0%80%EB%B9%84%EC%A7%80-%EC%BD%9C%EB%A0%89%EC%85%98-%EA%B8%B0%ED%83%80-%EB%A6%AC%EC%86%8C%EC%8A%A4-%EA%B4%80%EB%A6%AC-%EB%93%B1%EC%9D%98-%EC%97%AD%ED%95%A0%EC%9D%84-%EB%A7%A1%EB%8A%94-%EC%9D%BC%EC%A2%85%EC%9D%98-%EB%A7%A4%EB%8B%88%EC%A0%80-%EC%9A%94%EC%86%8C"><span class="toc-text">Q. JIT+VM, AOT+runtime? 런타임은 bytecode 로 작성된 프로그램을 실행할 때 필요한 여러 네이티브 라이브러리, 가비지 콜렉션, 기타 리소스 관리 등의 역할을 맡는 일종의 매니저 요소?</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Q-%EC%9E%90%EB%B0%94%EA%B0%80-bytecode-%EB%A5%BC-%ED%86%B5%ED%95%B4-WORA-Write-Once-Run-Anywhere-%EA%B0%9C%EB%85%90%EC%9D%84-%EC%A0%81%EC%9A%A9%ED%96%88%EB%8B%A4%EA%B3%A0-%ED%95%98%EB%8A%94%EB%8D%B0-%EC%96%B4%EC%B0%A8%ED%94%BC-%EA%B0%9C%EB%B0%9C%EC%9E%90%EB%82%98-%EC%B5%9C%EC%A2%85-%EC%82%AC%EC%9A%A9%EC%9E%90%EB%8A%94-VM-runtime-%EB%93%B1%EC%9D%84-%EC%8B%A0%EA%B2%BD%EC%93%B8-%ED%95%84%EC%9A%94%EA%B0%80-%EC%97%86%EB%8A%94%EB%8D%B0-%EC%99%9C-%EA%B5%B3%EC%9D%B4-%EC%9E%90%EB%B0%94-%EC%86%8C%EC%8A%A4-%EC%BD%94%EB%93%9C%EA%B0%80-%EC%95%84%EB%8B%8C-%EB%B0%94%EC%9D%B4%ED%8A%B8%EC%BD%94%EB%93%9C%EA%B0%80-%ED%95%84%EC%9A%94%ED%95%9C-%EA%B1%B4%EB%8D%B0"><span class="toc-text">Q. 자바가 bytecode 를 통해 WORA(Write Once, Run Anywhere) 개념을 적용했다고 하는데, 어차피 개발자나 최종 사용자는 VM, runtime 등을 신경쓸 필요가 없는데 왜 굳이 자바 소스 코드가 아닌 바이트코드가 필요한 건데?</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Q-%EC%95%84%EB%8B%88-%EA%B7%B8%EB%9F%BC-%EB%B0%94%EC%9D%B4%ED%8A%B8%EC%BD%94%EB%93%9C%EB%A5%BC-%EC%95%88-%EC%93%B4%EB%8B%A4%EA%B3%A0-%EC%B3%A4%EC%9D%84%EB%95%8C-C-%EA%B0%99%EC%9D%80-%EC%96%B8%EC%96%B4%EB%93%A4%EA%B3%BC-%EB%B9%84%EA%B5%90%ED%95%B4%EC%84%9C-%EC%9D%B4%EC%A0%90%EC%9D%B4-%EB%AD%90%EC%95%BC-%EB%B0%94%EC%9D%B4%ED%8A%B8%EC%BD%94%EB%93%9C-%EC%95%88-%EC%93%B0%EB%A9%B4-%EC%A4%91%EA%B0%84-%EB%8B%A8%EA%B3%84-%EA%B1%B0%EC%B9%A0%EC%9D%BC%EC%9D%B4-%EC%97%86%EC%9C%BC%EB%8B%88-C-%EA%B8%89-%ED%8D%BC%ED%8F%AC%EB%A8%BC%EC%8A%A4%EA%B0%80-%EB%82%98%EC%99%80%EC%95%BC-%EB%90%98%EB%8A%94%EA%B1%B0-%EC%95%84%EB%8B%88%EC%95%BC"><span class="toc-text">Q. 아니 그럼, 바이트코드를 안 쓴다고 쳤을때 C++ 같은 언어들과 비교해서 이점이 뭐야? 바이트코드 안 쓰면 중간 단계 거칠일이 없으니 C++ 급 퍼포먼스가 나와야 되는거 아니야?</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Q-%EB%B3%B4%ED%86%B5-%EB%B0%94%EC%9D%B4%ED%8A%B8%EC%BD%94%EB%93%9C-%EA%B3%84%EC%97%B4-%EC%96%B8%EC%96%B4%EB%8A%94-VM%EC%9D%B4-%EA%B0%80%EB%B9%84%EC%A7%80-%EC%BD%9C%EB%A0%89%EC%85%98%EC%9D%84-%EB%8B%B4%EB%8B%B9%ED%95%9C%EB%8B%A4%EA%B3%A0-%EB%B0%B0%EC%9A%B0%EB%8A%94%EB%8D%B0-%EA%B0%91%EC%9E%90%EA%B8%B0-AOT-%EC%BB%B4%ED%8C%8C%EC%9D%BC%EC%9D%80-%EC%8B%A4%ED%96%89%EC%8B%9C-VM%EC%9D%84-%EC%82%AC%EC%9A%A9%ED%95%98%EC%A7%80-%EC%95%8A%EB%8A%94%EB%8B%A4%EB%8A%94-%EA%B2%8C-%EB%AC%B4%EC%8A%A8-%EB%A7%90%EC%9D%B4%EC%95%BC-%EA%B7%B8%EB%9F%BC-GC-%EC%9D%80-%EB%88%84%EA%B0%80-%ED%95%B4"><span class="toc-text">Q. 보통 바이트코드 계열 언어는 VM이 가비지 콜렉션을 담당한다고 배우는데, 갑자기 AOT 컴파일은 실행시 VM을 사용하지 않는다는 게 무슨 말이야? 그럼 GC 은 누가 해?</span></a></li></ol>
+      
+    </div>
+  </div>
+
+  
+<script src="/js/catalog.js"></script>
+
+
+
+
+    
+      <div class="comments-container">
+        
+
+
+
+
+
+
+
+      </div>
+    
+  </div>
+
+
+        
+<div class="footer">
+  <div class="social">
+    <ul>
+      
+        <li>
+          
+              <a title="github" target="_blank" rel="noopener" href="https://github.com/byhankim">
+                <i class="iconfont icon-github"></i>
+              </a>
+              
+        </li>
+        
+    </ul>
+  </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/byhankim">Copyright © 2025 byhankim</a>
+        
+    </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Theme by Oranges | Powered by Hexo</a>
+        
+    </div>
+  
+  
+</div>
+
+      </div>
+
+      <div class="tools-bar">
+        <div class="back-to-top tools-bar-item hidden">
+  <a href="javascript: void(0)">
+    <i class="iconfont icon-chevronup"></i>
+  </a>
+</div>
+
+
+<script src="/js/backtotop.js"></script>
+
+
+
+        
+  <div class="search-icon tools-bar-item" id="search-icon">
+    <a href="javascript: void(0)">
+      <i class="iconfont icon-search"></i>
+    </a>
+  </div>
+
+  <div class="search-overlay hidden">
+    <div class="search-content" tabindex="0">
+      <div class="search-title">
+        <span class="search-icon-input">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-search"></i>
+          </a>
+        </span>
+        
+          <input type="text" class="search-input" id="search-input" placeholder="Search...">
+        
+        <span class="search-close-icon" id="search-close-icon">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-close"></i>
+          </a>
+        </span>
+      </div>
+      <div class="search-result" id="search-result"></div>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    var inputArea = document.querySelector("#search-input")
+    var searchOverlayArea = document.querySelector(".search-overlay")
+
+    inputArea.onclick = function() {
+      getSearchFile()
+      this.onclick = null
+    }
+
+    inputArea.onkeydown = function() {
+      if(event.keyCode == 13)
+        return false
+    }
+
+    function openOrHideSearchContent() {
+      let isHidden = searchOverlayArea.classList.contains('hidden')
+      if (isHidden) {
+        searchOverlayArea.classList.remove('hidden')
+        document.body.classList.add('hidden')
+        // inputArea.focus()
+      } else {
+        searchOverlayArea.classList.add('hidden')
+        document.body.classList.remove('hidden')
+      }
+    }
+
+    function blurSearchContent(e) {
+      if (e.target === searchOverlayArea) {
+        openOrHideSearchContent()
+      }
+    }
+
+    document.querySelector("#search-icon").addEventListener("click", openOrHideSearchContent, false)
+    document.querySelector("#search-close-icon").addEventListener("click", openOrHideSearchContent, false)
+    searchOverlayArea.addEventListener("click", blurSearchContent, false)
+
+    var searchFunc = function (path, search_id, content_id) {
+      'use strict';
+      var $input = document.getElementById(search_id);
+      var $resultContent = document.getElementById(content_id);
+      $resultContent.innerHTML = "<ul><span class='local-search-empty'>First search, index file loading, please wait...<span></ul>";
+      $.ajax({
+        // 0x01. load xml file
+        url: path,
+        dataType: "xml",
+        success: function (xmlResponse) {
+          // 0x02. parse xml file
+          var datas = $("entry", xmlResponse).map(function () {
+            return {
+              title: $("title", this).text(),
+              content: $("content", this).text(),
+              url: $("url", this).text()
+            };
+          }).get();
+          $resultContent.innerHTML = "";
+
+          $input.addEventListener('input', function () {
+            // 0x03. parse query to keywords list
+            var str = '<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length <= 0) {
+              return;
+            }
+            // 0x04. perform local searching
+            datas.forEach(function (data) {
+              var isMatch = true;
+              var content_index = [];
+              if (!data.title || data.title.trim() === '') {
+                data.title = "Untitled";
+              }
+              var orig_data_title = data.title.trim();
+              var data_title = orig_data_title.toLowerCase();
+              var orig_data_content = data.content.trim().replace(/<[^>]+>/g, "");
+              var data_content = orig_data_content.toLowerCase();
+              var data_url = data.url;
+              var index_title = -1;
+              var index_content = -1;
+              var first_occur = -1;
+              // only match artiles with not empty contents
+              if (data_content !== '') {
+                keywords.forEach(function (keyword, i) {
+                  index_title = data_title.indexOf(keyword);
+                  index_content = data_content.indexOf(keyword);
+
+                  if (index_title < 0 && index_content < 0) {
+                    isMatch = false;
+                  } else {
+                    if (index_content < 0) {
+                      index_content = 0;
+                    }
+                    if (i == 0) {
+                      first_occur = index_content;
+                    }
+                    // content_index.push({index_content:index_content, keyword_len:keyword_len});
+                  }
+                });
+              } else {
+                isMatch = false;
+              }
+              // 0x05. show search results
+              if (isMatch) {
+                str += "<li><a href='" + data_url + "' class='search-result-title'>" + orig_data_title + "</a>";
+                var content = orig_data_content;
+                if (first_occur >= 0) {
+                  // cut out 100 characters
+                  var start = first_occur - 20;
+                  var end = first_occur + 80;
+
+                  if (start < 0) {
+                    start = 0;
+                  }
+
+                  if (start == 0) {
+                    end = 100;
+                  }
+
+                  if (end > content.length) {
+                    end = content.length;
+                  }
+
+                  var match_content = content.substr(start, end);
+
+                  // highlight all keywords
+                  keywords.forEach(function (keyword) {
+                    var regS = new RegExp(keyword, "gi");
+                    match_content = match_content.replace(regS, "<span class=\"search-keyword\">" + keyword + "</span>");
+                  });
+
+                  str += "<p class=\"search-result-abstract\">" + match_content + "...</p>"
+                }
+                str += "</li>";
+              }
+            });
+            str += "</ul>";
+            if (str.indexOf('<li>') === -1) {
+              return $resultContent.innerHTML = "<ul><span class='local-search-empty'>No result<span></ul>";
+            }
+            $resultContent.innerHTML = str;
+          });
+        },
+        error: function(xhr, status, error) {
+          $resultContent.innerHTML = ""
+          if (xhr.status === 404) {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>The search.xml file was not found, please refer to：<a href='https://github.com/zchengsite/hexo-theme-oranges#configuration' target='_black'>configuration</a><span></ul>";
+          } else {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>The request failed, Try to refresh the page or try again later.<span></ul>";
+          }
+        }
+      });
+      $(document).on('click', '#search-close-icon', function() {
+        $('#search-input').val('');
+        $('#search-result').html('');
+      });
+    }
+
+    var getSearchFile = function() {
+        var path = "/search.xml";
+        searchFunc(path, 'search-input', 'search-result');
+    }
+  </script>
+
+
+
+
+        
+  <div class="tools-bar-item theme-icon" id="switch-color-scheme">
+    <a href="javascript: void(0)">
+      <i id="theme-icon" class="iconfont icon-moon"></i>
+    </a>
+  </div>
+
+  
+<script src="/js/colorscheme.js"></script>
+
+
+
+
+
+        
+  
+    <div class="share-icon tools-bar-item">
+      <a href="javascript: void(0)" id="share-icon">
+        <i class="iconfont iconshare"></i>
+      </a>
+      <div class="share-content hidden">
+        
+          <a class="share-item" href="https://twitter.com/intent/tweet?text=' + VM%EA%B3%BC%20JIT%2FAOT%20%EC%BB%B4%ED%8C%8C%EC%9D%BC%20-%20%EC%83%9D%EA%B0%81%ED%95%B4%EB%B3%B8%20%EC%A0%81%20%EC%97%86%EB%8A%94%20%EB%AC%B8%EC%A0%9C%EB%93%A4 + '&url=' + https%3A%2F%2Fbyhankim.github.io%2F2025%2F01%2F26%2F250126-vm-jit-aot%2F + '" target="_blank" title="Twitter">
+            <i class="iconfont icon-twitter"></i>
+          </a>
+        
+        
+          <a class="share-item" href="https://www.facebook.com/sharer.php?u=https://byhankim.github.io/2025/01/26/250126-vm-jit-aot/" target="_blank" title="Facebook">
+            <i class="iconfont icon-facebooksquare"></i>
+          </a>
+        
+      </div>
+    </div>
+  
+  
+<script src="/js/shares.js"></script>
+
+
+
+      </div>
+    </div>
+  </body>
+</html>
